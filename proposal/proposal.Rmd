@@ -1,7 +1,7 @@
 ---
 title: "Project proposal"
-author: "Team name"
-output: github_document
+author: "charliebitmyfinger"
+output: html_document
 ---
 
 ```{r load-packages, message = FALSE}
@@ -11,7 +11,10 @@ library(broom)
 
 ## 1. Introduction
 
-
+```{r read-in-data}
+yt <- readr::read_csv(file = "../USvideos.csv")
+head(yt)
+```
 
 ## 2. Data
 
