@@ -11,16 +11,57 @@ library(broom)
 
 ## 1. Introduction
 
+We aim to examine what makes a Youtube video popular using a dataset that contains Youtube data.
+
 ```{r read-in-data}
-yt <- readr::read_csv(file = "../USvideos.csv")
-head(yt)
+yt <- readr::read_csv(file = "../data/USvideos.csv")
 ```
+The data is from Kaggle (the Kaggle link can be found here... https://www.kaggle.com/datasnaek/youtube-new?select=USvideos.csv) . It was posted to Kaggle by a user called Mitchell J. Mitchell J was able to build the dataset by writing a Python script that scraped the web for Youtube data (scraper code can be found here.... https://github.com/mitchelljy/Trending-YouTube-Scraper) . The Kaggle post includes data on Youtube statistics for USA, Great Britain, Germany, Canada, France, Russia, Mexico, South Korea, Japan and India (each country's is posted in a separate dataset). We decided to only look at US data for two reasons. 
+
+Reason #1: the datasets all together (if combined) would have been enormous. With so many megabytes of data being processed by our code, our program may have been a bit slower with all countries' data included.
+Reason #2: the US is the country we know the best. We may have an easier time drawing conclusions and designing analysis of US data than we would with world data because we are American researchers that can relate to American search habits.
+
+There are `ncol(yt)` columns and `nrow(yt)` rows in the dataset 
+
+Below is a list of the variables and what they mean....
+video_id: a unique alphanumeric id for each video (there are only 6351 unique videos in the data)
+trending_date: a date on which that video was trending
+video_title: title of the video (a string)
+channel_title: name of the Youtube channel (a string)
+category_id: number corresponding to category of the video (ranging 1-43)
+publish_time: a datatime object for when the video was uploaded to Youtube
+tags: categorical tag names attached to the video
+views: number of views
+likes: number of likes
+dislikes: number of dislikes
+comment_count: number of comments
+thumbnail_link: a link to the video
+comments_disabled: boolean for whether or not comments are disabled
+ratings_disabled: boolean for whether or not likes and dislikes are disabled
+video_error_or_removed: boolean for whether or not the video has been taken off the site
+description: description of the video
 
 ## 2. Data
+
+```{r data-glimpse}
+glimpse(yt)
+```
+
 
 
 
 ## 3. Data analysis plan
 
+```{r data-glimpse}
+range(yt$trending_date) #range is wrong bc r does not understand the yy.dd.mm structure
+#we need to reformat the dates to be mm.dd.yy
+```
 
+There are a number of variables that we may choose as our dependent variable. Number of likes is fascinating to look at. Number of views is fascinating to look at, too.
+
+We can play around with some or all of our predictor variables in order to investigate what factors lead to a popular Youtube video. Videos that have many tags? Videos in a certain category? Videos on a channel that is already popular? Videos posted at a certain time of day? There are many fun questions that we may ask as we progress through the analysis. All of the 14 variables other than views and likes (which will be used as dependent variables) will probably be useful at some point in our analysis except for thumbnail_link (we won't be doing any webscraping ourselves). Comment_count, tags, category, channel_title, publish_time, and others will certainly be interesting to examine once we dive into the data. Number of dislikes is an especially juicy variable - what if increased dislikes (indicating increased controversy) are tied to an increase in number of views?
+
+We may want to create our own variables at certain points in our analysis using the mutate() function. Further, we may want to create a number of plots to visualize our data using ggplot()'s geom_point(), geom_bar(), and other functions. We may want to select certain rows to look at using select(). We may want to count the occurrence of certain data trends using count(). We may want to sort the data using arrange(). There are many other functions that we have learned (and new ones that we will learn) that will be helpful for this project.
+
+Since we do not know which predictor variables (or even which dependent variable) we will use yet, it is impossible to surmise what will suffice as conclusive evidence for our research question. Strong correlation plots and other visualizations that display clear trends will most likely be our "proof" once we come up with some conclusions to include in our final file.
 
