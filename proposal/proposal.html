@@ -174,6 +174,7 @@ pre code {
 library(broom)</code></pre>
 <div id="introduction" class="section level2">
 <h2>1. Introduction</h2>
+<p>We aim to examine what makes a Youtube video popular using a dataset that contains Youtube data.</p>
 <pre class="r"><code>yt &lt;- readr::read_csv(file = &quot;../data/USvideos.csv&quot;)</code></pre>
 <pre><code>## Rows: 40949 Columns: 16</code></pre>
 <pre><code>## ── Column specification ────────────────────────────────────────────────────────
@@ -185,26 +186,42 @@ library(broom)</code></pre>
 <pre><code>## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>head(yt)</code></pre>
-<pre><code>## # A tibble: 6 × 16
-##   video_id    trending_date title  channel_title category_id publish_time       
-##   &lt;chr&gt;       &lt;chr&gt;         &lt;chr&gt;  &lt;chr&gt;               &lt;dbl&gt; &lt;dttm&gt;             
-## 1 2kyS6SvSYSE 17.14.11      WE WA… CaseyNeistat           22 2017-11-13 17:13:01
-## 2 1ZAPwfrtAFY 17.14.11      The T… LastWeekToni…          24 2017-11-13 07:30:00
-## 3 5qpjK5DgCt4 17.14.11      Racis… Rudy Mancuso           23 2017-11-12 19:05:24
-## 4 puqaWrEC7tY 17.14.11      Nicke… Good Mythica…          24 2017-11-13 11:00:04
-## 5 d380meD0W0M 17.14.11      I Dar… nigahiga               24 2017-11-12 18:01:41
-## 6 gHZ1Qz0KiKM 17.14.11      2 Wee… iJustine               28 2017-11-13 19:07:23
-## # … with 10 more variables: tags &lt;chr&gt;, views &lt;dbl&gt;, likes &lt;dbl&gt;,
-## #   dislikes &lt;dbl&gt;, comment_count &lt;dbl&gt;, thumbnail_link &lt;chr&gt;,
-## #   comments_disabled &lt;lgl&gt;, ratings_disabled &lt;lgl&gt;,
-## #   video_error_or_removed &lt;lgl&gt;, description &lt;chr&gt;</code></pre>
+<p>The data is from Kaggle (the Kaggle link can be found here… (<a href="https://www.kaggle.com/datasnaek/youtube-new?select=USvideos.csv" class="uri">https://www.kaggle.com/datasnaek/youtube-new?select=USvideos.csv</a>) . It was posted to Kaggle by a user called Mitchell J. Mitchell J was able to build the dataset by writing a Python script that scraped the web for Youtube data (scraper code can be found here…. <a href="https://github.com/mitchelljy/Trending-YouTube-Scraper" class="uri">https://github.com/mitchelljy/Trending-YouTube-Scraper</a>) . The Kaggle post includes data on Youtube statistics for USA, Great Britain, Germany, Canada, France, Russia, Mexico, South Korea, Japan, and India (each country’s is posted in a separate dataset). We decided to only look at US data for two reasons.</p>
+<p>Reason #1: the datasets all together (if combined) would have been enormous. With so many megabytes of data being processed by our code, our program may have been a bit slower with all countries’ data included. Reason #2: the US is the country we know the best. We may have an easier time drawing conclusions and designing analysis of US data than we would with world data because we are American researchers that can relate to American search habits.</p>
+<p>There are <code>ncol(yt)</code> columns and <code>nrow(yt)</code> rows in the dataset.</p>
+<p>Below is a list of the variables and what they mean…. video_id: a unique alphanumeric id for each video (there are only 6351 unique videos in the data) trending_date: a date on which that video was trending video_title: title of the video (a string) channel_title: name of the Youtube channel (a string) category_id: number corresponding to category of the video (ranging 1-43) publish_time: a datatime object for when the video was uploaded to Youtube tags: categorical tag names attached to the video views: number of views likes: number of likes dislikes: number of dislikes comment_count: number of comments thumbnail_link: a link to the video comments_disabled: boolean for whether or not comments are disabled ratings_disabled: boolean for whether or not likes and dislikes are disabled video_error_or_removed: boolean for whether or not the video has been taken off the site description: description of the video</p>
 </div>
 <div id="data" class="section level2">
 <h2>2. Data</h2>
+<pre class="r"><code>glimpse(yt)</code></pre>
+<pre><code>## Rows: 40,949
+## Columns: 16
+## $ video_id               &lt;chr&gt; &quot;2kyS6SvSYSE&quot;, &quot;1ZAPwfrtAFY&quot;, &quot;5qpjK5DgCt4&quot;, &quot;p…
+## $ trending_date          &lt;chr&gt; &quot;17.14.11&quot;, &quot;17.14.11&quot;, &quot;17.14.11&quot;, &quot;17.14.11&quot;,…
+## $ title                  &lt;chr&gt; &quot;WE WANT TO TALK ABOUT OUR MARRIAGE&quot;, &quot;The Trum…
+## $ channel_title          &lt;chr&gt; &quot;CaseyNeistat&quot;, &quot;LastWeekTonight&quot;, &quot;Rudy Mancus…
+## $ category_id            &lt;dbl&gt; 22, 24, 23, 24, 24, 28, 24, 28, 1, 25, 17, 24, …
+## $ publish_time           &lt;dttm&gt; 2017-11-13 17:13:01, 2017-11-13 07:30:00, 2017…
+## $ tags                   &lt;chr&gt; &quot;SHANtell martin&quot;, &quot;last week tonight trump pre…
+## $ views                  &lt;dbl&gt; 748374, 2418783, 3191434, 343168, 2095731, 1191…
+## $ likes                  &lt;dbl&gt; 57527, 97185, 146033, 10172, 132235, 9763, 1599…
+## $ dislikes               &lt;dbl&gt; 2966, 6146, 5339, 666, 1989, 511, 2445, 778, 11…
+## $ comment_count          &lt;dbl&gt; 15954, 12703, 8181, 2146, 17518, 1434, 1970, 34…
+## $ thumbnail_link         &lt;chr&gt; &quot;https://i.ytimg.com/vi/2kyS6SvSYSE/default.jpg…
+## $ comments_disabled      &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE…
+## $ ratings_disabled       &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE…
+## $ video_error_or_removed &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE…
+## $ description            &lt;chr&gt; &quot;SHANTELL&#39;S CHANNEL - https://www.youtube.com/s…</code></pre>
 </div>
 <div id="data-analysis-plan" class="section level2">
 <h2>3. Data analysis plan</h2>
+<pre class="r"><code>range(yt$trending_date) # range is wrong bc R does not understand the yy.dd.mm structure</code></pre>
+<pre><code>## [1] &quot;17.01.12&quot; &quot;18.31.05&quot;</code></pre>
+<pre class="r"><code># we need to reformat the dates to be mm.dd.yy</code></pre>
+<p>There are a number of variables that we may choose as our dependent variable. Number of likes is fascinating to look at. Number of views is fascinating to look at, too.</p>
+<p>We can play around with some or all of our predictor variables in order to investigate what factors lead to a popular Youtube video. Videos that have many tags? Videos in a certain category? Videos on a channel that is already popular? Videos posted at a certain time of day? There are many fun questions that we may ask as we progress through the analysis. All of the 14 variables, other than views and likes (which will be used as dependent variables), will probably be useful at some point in our analysis except for <code>thumbnail_link</code> (we won’t be doing any web scraping ourselves). <code>Comment_count</code>, <code>tags</code>, <code>category</code>, <code>channel_title</code>, <code>publish_time</code>, and others will certainly be interesting to examine once we dive into the data. Number of dislikes is an especially juicy variable - what if increased dislikes (indicating increased controversy) are tied to an increase in number of views?</p>
+<p>We may want to create our own variables at certain points in our analysis using the <code>mutate()</code> function. Further, we may want to create a number of plots to visualize our data using ggplot’s <code>geom_point()</code>, <code>geom_bar()</code>, and other functions. We may want to select certain rows to look at using <code>select()</code>. We may want to count the occurrence of certain data trends using <code>count()</code>. We may want to sort the data using <code>arrange()</code>. There are many other functions that we have learned (and new ones that we will learn) that will be helpful for this project.</p>
+<p>Since we do not know which predictor variables (or even which dependent variable) we will use yet, it is impossible to surmise what will suffice as conclusive evidence for our research question. Strong correlation plots and other visualizations that display clear trends will most likely be our “proof” once we come up with some conclusions to include in our final file.</p>
 </div>
 
 
