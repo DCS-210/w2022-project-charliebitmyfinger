@@ -52,7 +52,7 @@ glimpse(yt)
 
 ## 3. Data analysis plan
 
-```{r data-glimpse}
+```{r data-date-range}
 range(yt$trending_date) #range is wrong bc r does not understand the yy.dd.mm structure
 #we need to reformat the dates to be mm.dd.yy
 ```
@@ -64,4 +64,31 @@ We can play around with some or all of our predictor variables in order to inves
 We may want to create our own variables at certain points in our analysis using the mutate() function. Further, we may want to create a number of plots to visualize our data using ggplot()'s geom_point(), geom_bar(), and other functions. We may want to select certain rows to look at using select(). We may want to count the occurrence of certain data trends using count(). We may want to sort the data using arrange(). There are many other functions that we have learned (and new ones that we will learn) that will be helpful for this project.
 
 Since we do not know which predictor variables (or even which dependent variable) we will use yet, it is impossible to surmise what will suffice as conclusive evidence for our research question. Strong correlation plots and other visualizations that display clear trends will most likely be our "proof" once we come up with some conclusions to include in our final file.
+
+Some visualizations of the data are shown below....
+
+```{r data-visual}
+ggplot(data = yt, mapping = aes(x = views, y = likes)) +
+  geom_point()
+
+ggplot(data = yt, mapping = aes(x = comment_count, y = dislikes)) +
+  geom_point()
+```
+
+
+```{r max-views-by-channel}
+yt %>%
+  group_by(channel_title) %>%
+  summarise(max_views = max(views)) %>%
+  arrange(desc(max_views)) %>%
+  head()
+
+max_views_vid_for_each_channel = yt %>%
+  group_by(channel_title) %>%
+  summarise(max_views = max(views)) %>%
+  arrange(desc(max_views))
+
+ggplot(data = max_views_vid_for_each_channel, mapping = aes(x = channel_title, y = max_views)) +
+  geom_point()
+```
 
