@@ -59,7 +59,6 @@ range(yt$trending_date) #range is wrong bc r does not understand the yy.dd.mm st
 ```{r range-glimpse}
 range(yt$trending_date) # range is wrong bc R does not understand the yy.dd.mm structure
 # we need to reformat the dates to be mm.dd.yy
->>>>>>> 17fe599b819b7c24954d525ef846635c9ac7ee10
 ```
 
 There are a number of variables that we may choose as our dependent variable. Number of likes is fascinating to look at. Number of views is fascinating to look at, too.
