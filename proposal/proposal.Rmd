@@ -54,7 +54,8 @@ glimpse(yt)
 ```{r data-date-range}
 range(yt$trending_date) #range is wrong bc r does not understand the yy.dd.mm structure
 #we need to reformat the dates to be mm.dd.yy
-=======
+```
+
 ```{r range-glimpse}
 range(yt$trending_date) # range is wrong bc R does not understand the yy.dd.mm structure
 # we need to reformat the dates to be mm.dd.yy
