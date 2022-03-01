@@ -51,39 +51,61 @@ unique(yt$category_id)
 We noticed that our dataset contains a variable called `category_id` but the variable doesn't tell us what these categories are. Searching online, we found that Youtube has 16 unique categories, and when using the `unique()` function with our `category_id` variable, they match up. The list of categories can be found here: https://techpostplus.com/youtube-video-categories-list-faqs-and-solutions/. It would be interesting to see how popularity changes with category. In order to create some pretty cool visualizations, we will add a new variable to our dataset called `category`, giving us the name of each corresponding category.
 
 ```{r new-variable}
-# yt$category <- c("Film & Animation", "Autos & Vehicles", "Music", "Pets & Animals", "Sports", "Travel & Events", "Gaming", "People & Blogs", "Comedy", "Entertainment", "News & Politics", "Howto & Style", "Education", "Science & Technology", "Nonprofits & Activism")
+yt$category <- 0
 
-yt$category_id <- 0
+film_animation <- "1"
+autos_vehicles <- "2"
+music <- "10"
+pets_animals <- "15"
+sports <- "17"
+travel_events <- "19"
+gaming <- "20"
+people_blogs <- "22"
+comedy <- "23"
+entertainment <- "24"
+news_politics <- "25"
+howto_style <- "26"
+education <- "27"
+science_tech <- "28"
+nonprofits_activism <- "29"
 
-if(yt$category_id == "1"){
-    yt$category == "Film & Animation"
-  } else if(yt$category_id == "2"){
-    yt$category == "Autos & Vehicles"
-  } else if(yt$category_id == "10"){
-    yt$category == "Music"
-  } else if(yt$category_id == "15"){
-    yt$category == "Pets & Animals"
-  } else if(yt$category_id == "17"){
-    yt$category == "Sports"
-  } else if(yt$category_id == "19"){
-    yt$category == "Travel & Events"
-  } else if(yt$category_id == "20"){
-    yt$category == "Gaming"
-  } else if(yt$category_id == "22"){
-    yt$category == "People & Blogs"
-  } else if(yt$category_id == "23"){
-    yt$category == "Comedy"
-  } else if(yt$category_id == "24"){
-    yt$category == "Entertainment"
-  } else if(yt$category_id == "25"){
-    yt$category == "News & Politics"
-  } else if(yt$category_id == "26"){
-    yt$category == "Howto & Style"
-  } else if(yt$category_id == "27"){
-    yt$category == "Education"
-  } else if(yt$category_id == "28"){
-    yt$category == "Science & Technology"
-  } else {yt$category == "Nonprofits & Activism"}
+for(i in 1:nrow(yt)){
+  evaluate_category_id <- yt$category_id[i]
+  if(evaluate_category_id %in% film_animation){
+    yt$category[i] <- "Film & Animation"
+  } else if(evaluate_category_id %in% autos_vehicles){
+    yt$category[i] <- "Autos & Vehicles"
+  } else if(evaluate_category_id %in% music){
+    yt$category[i] <- "Music"
+  } else if(evaluate_category_id %in% pets_animals){
+    yt$category[i] <- "Pets & Animals"
+  } else if(evaluate_category_id %in% sports){
+    yt$category[i] <- "Sports"
+  } else if(evaluate_category_id %in% travel_events){
+    yt$category[i] <- "Travel & Events"
+  } else if(evaluate_category_id %in% gaming){
+    yt$category[i] <- "Gaming"
+  } else if(evaluate_category_id %in% people_blogs){
+    yt$category[i] <- "People & Blogs"
+  } else if(evaluate_category_id %in% comedy){
+    yt$category[i] <- "Comedy"
+  } else if(evaluate_category_id %in% entertainment){
+    yt$category[i] <- "Entertainment"
+  } else if(evaluate_category_id %in% news_politics){
+    yt$category[i] <- "News & Politics"
+  } else if(evaluate_category_id %in% howto_style){
+    yt$category[i] <- "Howto & Style"
+  } else if(evaluate_category_id %in% education){
+    yt$category[i] <- "Education"
+  } else if(evaluate_category_id %in% science_tech){
+    yt$category[i] <- "Science & Technology"
+  } else if(evaluate_category_id %in% nonprofits_activism){
+    yt$category[i] <- "Nonprofits & Activism"
+  }else {
+    yt$category[i] <- "Other"
+  }}
+head(yt)
+```
 ```
 
 
