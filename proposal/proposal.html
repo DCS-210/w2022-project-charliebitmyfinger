@@ -212,6 +212,72 @@ library(broom)</code></pre>
 ## $ ratings_disabled       &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE…
 ## $ video_error_or_removed &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE…
 ## $ description            &lt;chr&gt; &quot;SHANTELL&#39;S CHANNEL - https://www.youtube.com/s…</code></pre>
+<pre class="r"><code>unique(yt$category_id)</code></pre>
+<pre><code>##  [1] 22 24 23 28  1 25 17 10 15 27 26  2 19 20 29 43</code></pre>
+<p>We noticed that our dataset contains a variable called <code>category_id</code> but the variable doesn’t tell us what these categories are. Searching online, we found that Youtube has 16 unique categories, and when using the <code>unique()</code> function with our <code>category_id</code> variable, they match up. The list of categories can be found here: <a href="https://techpostplus.com/youtube-video-categories-list-faqs-and-solutions/" class="uri">https://techpostplus.com/youtube-video-categories-list-faqs-and-solutions/</a>. It would be interesting to see how popularity changes with category. In order to create some pretty cool visualizations, we will add a new variable to our dataset called <code>category</code>, giving us the name of each corresponding category.</p>
+<pre class="r"><code># yt$category &lt;- c(&quot;Film &amp; Animation&quot;, &quot;Autos &amp; Vehicles&quot;, &quot;Music&quot;, &quot;Pets &amp; Animals&quot;, &quot;Sports&quot;, &quot;Travel &amp; Events&quot;, &quot;Gaming&quot;, &quot;People &amp; Blogs&quot;, &quot;Comedy&quot;, &quot;Entertainment&quot;, &quot;News &amp; Politics&quot;, &quot;Howto &amp; Style&quot;, &quot;Education&quot;, &quot;Science &amp; Technology&quot;, &quot;Nonprofits &amp; Activism&quot;)
+
+yt$category_id &lt;- 0
+
+if(yt$category_id == &quot;1&quot;){
+    yt$category == &quot;Film &amp; Animation&quot;
+  } else if(yt$category_id == &quot;2&quot;){
+    yt$category == &quot;Autos &amp; Vehicles&quot;
+  } else if(yt$category_id == &quot;10&quot;){
+    yt$category == &quot;Music&quot;
+  } else if(yt$category_id == &quot;15&quot;){
+    yt$category == &quot;Pets &amp; Animals&quot;
+  } else if(yt$category_id == &quot;17&quot;){
+    yt$category == &quot;Sports&quot;
+  } else if(yt$category_id == &quot;19&quot;){
+    yt$category == &quot;Travel &amp; Events&quot;
+  } else if(yt$category_id == &quot;20&quot;){
+    yt$category == &quot;Gaming&quot;
+  } else if(yt$category_id == &quot;22&quot;){
+    yt$category == &quot;People &amp; Blogs&quot;
+  } else if(yt$category_id == &quot;23&quot;){
+    yt$category == &quot;Comedy&quot;
+  } else if(yt$category_id == &quot;24&quot;){
+    yt$category == &quot;Entertainment&quot;
+  } else if(yt$category_id == &quot;25&quot;){
+    yt$category == &quot;News &amp; Politics&quot;
+  } else if(yt$category_id == &quot;26&quot;){
+    yt$category == &quot;Howto &amp; Style&quot;
+  } else if(yt$category_id == &quot;27&quot;){
+    yt$category == &quot;Education&quot;
+  } else if(yt$category_id == &quot;28&quot;){
+    yt$category == &quot;Science &amp; Technology&quot;
+  } else {yt$category == &quot;Nonprofits &amp; Activism&quot;}</code></pre>
+<pre><code>## Warning in if (yt$category_id == &quot;1&quot;) {: the condition has length &gt; 1 and only
+## the first element will be used</code></pre>
+<pre><code>## Warning in if (yt$category_id == &quot;2&quot;) {: the condition has length &gt; 1 and only
+## the first element will be used</code></pre>
+<pre><code>## Warning in if (yt$category_id == &quot;10&quot;) {: the condition has length &gt; 1 and only
+## the first element will be used</code></pre>
+<pre><code>## Warning in if (yt$category_id == &quot;15&quot;) {: the condition has length &gt; 1 and only
+## the first element will be used</code></pre>
+<pre><code>## Warning in if (yt$category_id == &quot;17&quot;) {: the condition has length &gt; 1 and only
+## the first element will be used</code></pre>
+<pre><code>## Warning in if (yt$category_id == &quot;19&quot;) {: the condition has length &gt; 1 and only
+## the first element will be used</code></pre>
+<pre><code>## Warning in if (yt$category_id == &quot;20&quot;) {: the condition has length &gt; 1 and only
+## the first element will be used</code></pre>
+<pre><code>## Warning in if (yt$category_id == &quot;22&quot;) {: the condition has length &gt; 1 and only
+## the first element will be used</code></pre>
+<pre><code>## Warning in if (yt$category_id == &quot;23&quot;) {: the condition has length &gt; 1 and only
+## the first element will be used</code></pre>
+<pre><code>## Warning in if (yt$category_id == &quot;24&quot;) {: the condition has length &gt; 1 and only
+## the first element will be used</code></pre>
+<pre><code>## Warning in if (yt$category_id == &quot;25&quot;) {: the condition has length &gt; 1 and only
+## the first element will be used</code></pre>
+<pre><code>## Warning in if (yt$category_id == &quot;26&quot;) {: the condition has length &gt; 1 and only
+## the first element will be used</code></pre>
+<pre><code>## Warning in if (yt$category_id == &quot;27&quot;) {: the condition has length &gt; 1 and only
+## the first element will be used</code></pre>
+<pre><code>## Warning in if (yt$category_id == &quot;28&quot;) {: the condition has length &gt; 1 and only
+## the first element will be used</code></pre>
+<pre><code>## Warning: Unknown or uninitialised column: `category`.</code></pre>
+<pre><code>## logical(0)</code></pre>
 </div>
 <div id="data-analysis-plan" class="section level2">
 <h2>3. Data analysis plan</h2>

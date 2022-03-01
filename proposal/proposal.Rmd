@@ -45,6 +45,45 @@ description: description of the video
 
 ```{r data-glimpse}
 glimpse(yt)
+unique(yt$category_id)
+```
+
+We noticed that our dataset contains a variable called `category_id` but the variable doesn't tell us what these categories are. Searching online, we found that Youtube has 16 unique categories, and when using the `unique()` function with our `category_id` variable, they match up. The list of categories can be found here: https://techpostplus.com/youtube-video-categories-list-faqs-and-solutions/. It would be interesting to see how popularity changes with category. In order to create some pretty cool visualizations, we will add a new variable to our dataset called `category`, giving us the name of each corresponding category.
+
+```{r new-variable}
+# yt$category <- c("Film & Animation", "Autos & Vehicles", "Music", "Pets & Animals", "Sports", "Travel & Events", "Gaming", "People & Blogs", "Comedy", "Entertainment", "News & Politics", "Howto & Style", "Education", "Science & Technology", "Nonprofits & Activism")
+
+yt$category_id <- 0
+
+if(yt$category_id == "1"){
+    yt$category == "Film & Animation"
+  } else if(yt$category_id == "2"){
+    yt$category == "Autos & Vehicles"
+  } else if(yt$category_id == "10"){
+    yt$category == "Music"
+  } else if(yt$category_id == "15"){
+    yt$category == "Pets & Animals"
+  } else if(yt$category_id == "17"){
+    yt$category == "Sports"
+  } else if(yt$category_id == "19"){
+    yt$category == "Travel & Events"
+  } else if(yt$category_id == "20"){
+    yt$category == "Gaming"
+  } else if(yt$category_id == "22"){
+    yt$category == "People & Blogs"
+  } else if(yt$category_id == "23"){
+    yt$category == "Comedy"
+  } else if(yt$category_id == "24"){
+    yt$category == "Entertainment"
+  } else if(yt$category_id == "25"){
+    yt$category == "News & Politics"
+  } else if(yt$category_id == "26"){
+    yt$category == "Howto & Style"
+  } else if(yt$category_id == "27"){
+    yt$category == "Education"
+  } else if(yt$category_id == "28"){
+    yt$category == "Science & Technology"
+  } else {yt$category == "Nonprofits & Activism"}
 ```
 
 
