@@ -75,6 +75,9 @@ Some visualizations of the data are shown below....
 ggplot(data = yt, mapping = aes(x = views, y = likes)) +
   geom_point(size = 0.5)
 
+ggplot(data = yt, mapping = aes(x = views, y = dislikes)) +
+  geom_point(size = 0.5)
+
 ggplot(data = yt, mapping = aes(x = comment_count, y = dislikes)) +
   geom_point(size = 0.5)
 ```
