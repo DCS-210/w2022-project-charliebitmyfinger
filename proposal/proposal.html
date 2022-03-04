@@ -282,18 +282,15 @@ head(yt)</code></pre>
 ## #   dislikes &lt;dbl&gt;, comment_count &lt;dbl&gt;, thumbnail_link &lt;chr&gt;,
 ## #   comments_disabled &lt;lgl&gt;, ratings_disabled &lt;lgl&gt;,
 ## #   video_error_or_removed &lt;lgl&gt;, description &lt;chr&gt;, category &lt;chr&gt;</code></pre>
-<pre><code>
-
-## 3. Data analysis plan
-
-&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
-
-```r
-range(yt$trending_date) #range is wrong bc r does not understand the yy.dd.mm structure</code></pre>
-<pre><code>## [1] &quot;17.01.12&quot; &quot;18.31.05&quot;</code></pre>
+</div>
+<div id="data-analysis-plan" class="section level1">
+<h1>3. Data analysis plan</h1>
+<pre class="r"><code>yt$trending_date &lt;- as.Date(yt$trending_date, &quot;%y.%d.%m&quot;)</code></pre>
+<pre class="r"><code>range(yt$trending_date) #range is wrong bc r does not understand the yy.dd.mm structure</code></pre>
+<pre><code>## [1] &quot;2017-11-14&quot; &quot;2018-06-14&quot;</code></pre>
 <pre class="r"><code>#we need to reformat the dates to be mm.dd.yy</code></pre>
 <pre class="r"><code>range(yt$trending_date) # range is wrong bc R does not understand the yy.dd.mm structure</code></pre>
-<pre><code>## [1] &quot;17.01.12&quot; &quot;18.31.05&quot;</code></pre>
+<pre><code>## [1] &quot;2017-11-14&quot; &quot;2018-06-14&quot;</code></pre>
 <pre class="r"><code># we need to reformat the dates to be mm.dd.yy</code></pre>
 <p>There are a number of variables that we may choose as our dependent variable. Number of likes is fascinating to look at. Number of views is fascinating to look at, too.</p>
 <p>We can play around with some or all of our predictor variables in order to investigate what factors lead to a popular Youtube video. Videos that have many tags? Videos in a certain category? Videos on a channel that is already popular? Videos posted at a certain time of day? There are many fun questions that we may ask as we progress through the analysis. All of the 14 variables, other than views and likes (which will be used as dependent variables), will probably be useful at some point in our analysis except for <code>thumbnail_link</code> (we won’t be doing any web scraping ourselves). <code>Comment_count</code>, <code>tags</code>, <code>category</code>, <code>channel_title</code>, <code>publish_time</code>, and others will certainly be interesting to examine once we dive into the data. Number of dislikes is an especially juicy variable - what if increased dislikes (indicating increased controversy) are tied to an increase in number of views?</p>

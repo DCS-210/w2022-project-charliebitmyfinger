@@ -106,12 +106,15 @@ for(i in 1:nrow(yt)){
   }}
 head(yt)
 ```
+
+
+# 3. Data analysis plan
+
+
+```{r data-convert}
+yt$trending_date <- as.Date(yt$trending_date, "%y.%d.%m")
 ```
 
-
-## 3. Data analysis plan
-
-<<<<<<< HEAD
 ```{r data-date-range}
 range(yt$trending_date) #range is wrong bc r does not understand the yy.dd.mm structure
 #we need to reformat the dates to be mm.dd.yy
