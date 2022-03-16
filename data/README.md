@@ -4,6 +4,9 @@ https://www.kaggle.com/datasnaek/youtube-new/data?select=USvideos.csv
 
 ## yt
 
+The dataset has `nrow(yt)` rows and `ncol(yt)` columns
+
+
 - `video_id`: a unique alphanumeric id for each video (there are only 6351 unique videos in the data)
 - `trending_date`: a date on which that video was trending
 - `video_title`: title of the video (a string)
