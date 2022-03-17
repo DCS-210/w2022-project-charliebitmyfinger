@@ -163,3 +163,22 @@ ggplot(data = max_views_vid_for_each_channel, mapping = aes(x = channel_title, y
   geom_point(size = 0.75)
 ```
 
+```{r jh-plot}
+yt %>%
+  ggplot(data = yt, mapping = aes(x = publish_time, y = views, color = factor(category))) +
+  geom_point(alpha = 0.15) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(
+    title = "The Relationship Between YouTube Views and Publish Time",
+    subtitle = "by Category",
+    x = "Publish Time",
+    y = "Views",
+    color = "Category") +
+  theme(legend.title = element_text(size = 10), 
+        legend.text = element_text(size = 8),
+        legend.key.size = unit(0.4, "cm")) +
+  scale_colour_viridis_d() +
+  xlim("2016-11-14", "2018-11-14")
+```
+
+```
