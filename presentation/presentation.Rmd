@@ -33,16 +33,17 @@ knitr::opts_chunk$set(fig.retina = 3, dpi = 300, fig.width = 6, fig.asp = 0.618,
 # Load your data here
 ```
 
-```{r}
+```{r, echo=FALSE}
 style_xaringan(
   title_slide_background_image = "img/confetti.jpg"
 )
 ```
 
+---
 
 class: center, middle
 
-## A statement of the overall goal / research question
+## A statement of the overall goals / research question
 
 ---
 
@@ -54,7 +55,11 @@ class: inverse, center, middle
 
 # Hello World
 
+--
+
 - Click the `Knit` button to compile your presentation
+
+--
 
 - Make sure to commit and push all resulting files to your GitHub repo
 
@@ -100,7 +105,7 @@ or text in two columns $^*$
 
 # Code
 
-```{r boring-regression}
+```{r boring-regression, echo=FALSE, warning=FALSE, message=FALSE}
 # a boring regression
 model <- lm(dist ~ speed, data = cars)
 tidy(model)
