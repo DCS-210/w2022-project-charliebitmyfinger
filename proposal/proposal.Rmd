@@ -81,6 +81,10 @@ ggplot(data = yt, mapping = aes(x = views, y = dislikes)) +
 
 ggplot(data = yt, mapping = aes(x = comment_count, y = dislikes)) +
   geom_point(size = 0.5)
+
+ggplot(data = yt, mapping = aes(x = month(publish_time, label = TRUE), y = views)) + geom_point(size = 0.5) + coord_polar()
+
+ggplot(data = yt, mapping = aes(x = hour(publish_time), y = views)) + geom_point(size = 0.5) + coord_polar()
 ```
 
 
