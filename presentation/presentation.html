@@ -28,16 +28,12 @@ class: center, middle, inverse, title-slide
 
 
 
-```r
-style_xaringan(
-  title_slide_background_image = "img/confetti.jpg"
-)
-```
 
+---
 
 class: center, middle
 
-## A statement of the overall goal / research question
+## A statement of the overall goals / research question
 
 ---
 
@@ -49,7 +45,11 @@ class: inverse, center, middle
 
 # Hello World
 
+--
+
 - Click the `Knit` button to compile your presentation
+
+--
 
 - Make sure to commit and push all resulting files to your GitHub repo
 
@@ -96,12 +96,6 @@ or text in two columns `\(^*\)`
 # Code
 
 
-```r
-# a boring regression
-model &lt;- lm(dist ~ speed, data = cars)
-tidy(model)
-```
-
 ```
 ## # A tibble: 2 × 5
 ##   term        estimate std.error statistic  p.value
@@ -110,16 +104,21 @@ tidy(model)
 ## 2 speed           3.93     0.416      9.46 1.49e-12
 ```
 
-```r
-glance(model)
-```
-
 ```
 ## # A tibble: 1 × 12
+<<<<<<< HEAD
 ##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
 ##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 ## 1     0.651         0.644  15.4      89.6 1.49e-12     1  -207.  419.  425.
 ## # … with 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;
+=======
+##   r.squared adj.r.squared sigma statistic  p.value    df
+##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+## 1     0.651         0.644  15.4      89.6 1.49e-12     1
+## # … with 6 more variables: logLik &lt;dbl&gt;, AIC &lt;dbl&gt;,
+## #   BIC &lt;dbl&gt;, deviance &lt;dbl&gt;, df.residual &lt;int&gt;,
+## #   nobs &lt;int&gt;
+>>>>>>> 4a93bfbcde6f9c0cd13ce584901576d02ea7fd5d
 ```
 
 ---

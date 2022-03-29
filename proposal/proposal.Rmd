@@ -7,6 +7,7 @@ output: html_document
 ```{r load-packages, message = FALSE}
 library(tidyverse)
 library(broom)
+library(scales)
 ```
 
 ## 1. Introduction
@@ -46,6 +47,7 @@ description: description of the video
 ```{r data-glimpse}
 glimpse(yt)
 unique(yt$category_id)
+head(yt)
 ```
 
 We noticed that our dataset contains a variable called `category_id` but the variable doesn't tell us what these categories are. Searching online, we found that Youtube has 16 unique categories, and when using the `unique()` function with our `category_id` variable, they match up. The list of categories can be found here: https://techpostplus.com/youtube-video-categories-list-faqs-and-solutions/. It would be interesting to see how popularity changes with category. In order to create some pretty cool visualizations, we will add a new variable to our dataset called `category`, giving us the name of each corresponding category.
@@ -137,13 +139,16 @@ Some visualizations of the data are shown below....
 
 ```{r data-visual}
 ggplot(data = yt, mapping = aes(x = views, y = likes)) +
-  geom_point(size = 0.5)
+  geom_point(size = 0.5) +
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
 
 ggplot(data = yt, mapping = aes(x = views, y = dislikes)) +
-  geom_point(size = 0.5)
+  geom_point(size = 0.5) +
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
 
 ggplot(data = yt, mapping = aes(x = comment_count, y = dislikes)) +
-  geom_point(size = 0.5)
+  geom_point(size = 0.5) +
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
 ```
 
 
@@ -159,6 +164,7 @@ max_views_vid_for_each_channel = yt %>%
   summarise(max_views = max(views)) %>%
   arrange(desc(max_views))
 
+<<<<<<< HEAD
 ggplot(data = max_views_vid_for_each_channel, mapping = aes(x = reorder(channel_title, max_views), y = max_views)) +
   geom_point(size = 0.75) + 
   theme(axis.text.x=element_text(angle=90, hjust=1), legend.position= 'none' )
@@ -166,6 +172,11 @@ ggplot(data = max_views_vid_for_each_channel, mapping = aes(x = reorder(channel_
 
 
 #we should remove x axis labels for this one
+=======
+ggplot(data = max_views_vid_for_each_channel, mapping = aes(x = channel_title, y = max_views)) +
+  geom_point(size = 0.75) +
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
+>>>>>>> 4a93bfbcde6f9c0cd13ce584901576d02ea7fd5d
 ```
 
 
@@ -175,6 +186,7 @@ yt %>%
   ggplot(mapping = aes(x = views, y = likes, color = factor(category))) +
   geom_point(alpha = 0.15) +
   geom_smooth(method = "lm", se = FALSE) +
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
   labs(
     title = "The Relationship Between YouTube Views and Likes",
     subtitle = "by Category",
@@ -194,6 +206,7 @@ yt$publish_date <- as.Date(yt$publish_time)
 yt %>%
   ggplot(data = yt, mapping = aes(x = publish_date, y = views, color = factor(category))) +
   geom_point(alpha = 0.15) +
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
   labs(
     title = "The Relationship Between YouTube Views and Date",
     subtitle = "by Category",
@@ -227,7 +240,12 @@ yt %>%
         axis.text.x=element_text(angle=60, hjust=1)) +
   scale_colour_viridis_d() +
   scale_x_date(limit=c(as.Date("2017-10-15 18:59:30 UTC"), as.Date("2018-6-30 18:59:30 UTC")), date_breaks = "1 month", date_labels = "%y-%m") +
+<<<<<<< HEAD
   ylim(0, 100000000)
+=======
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
+  
+>>>>>>> 4a93bfbcde6f9c0cd13ce584901576d02ea7fd5d
 ```
 ```{r cateogry-v-views}
 yt %>%
