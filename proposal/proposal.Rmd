@@ -74,17 +74,20 @@ Some visualizations of the data are shown below....
 
 ```{r data-visual}
 ggplot(data = yt, mapping = aes(x = views, y = likes)) +
-  geom_point(size = 0.5)
+  geom_point(size = 0.5) + labs( "Views and Likes", x="Views", y="Likes")
 
 ggplot(data = yt, mapping = aes(x = views, y = dislikes)) +
-  geom_point(size = 0.5)
+  geom_point(size = 0.5) + labs( "Views and Dislikes", x="Views", y="Dislikes")
 
 ggplot(data = yt, mapping = aes(x = comment_count, y = dislikes)) +
-  geom_point(size = 0.5)
+  geom_point(size = 0.5) + labs( "Comment Count and Dislikes", x="Comment Count", y="Dislikes")
 
-ggplot(data = yt, mapping = aes(x = month(publish_time, label = TRUE), y = views)) + geom_point(size = 0.5) + coord_polar()
+ggplot(data = yt, mapping = aes(x = comment_count, y = views)) + geom_point(size = 0.5) + 
+  labs( "Comment Count and View Count", x="Comment Count", y="View Count")
 
-ggplot(data = yt, mapping = aes(x = hour(publish_time), y = views)) + geom_point(size = 0.5) + coord_polar()
+ggplot(data = yt, mapping = aes(x = month(publish_time, label = TRUE), y = views)) + geom_point(size = 0.5) + coord_polar() + labs(title = "Views and Upload Month", x="Month", y="Views")
+                                                                                  
+ggplot(data = yt, mapping = aes(x = hour(publish_time), y = views)) + geom_point(size = 0.5) + coord_polar() + labs(title = "Views and Upload Time(Hour)", x="Hour", y="Views")
 ```
 
 
