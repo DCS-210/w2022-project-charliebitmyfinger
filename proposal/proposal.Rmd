@@ -8,6 +8,7 @@ output: html_document
 library(tidyverse)
 library(broom)
 library(lubridate)
+library(scales)
 ```
 
 ## 1. Introduction
@@ -46,12 +47,77 @@ description: description of the video
 
 ```{r data-glimpse}
 glimpse(yt)
+unique(yt$category_id)
+head(yt)
+```
+
+We noticed that our dataset contains a variable called `category_id` but the variable doesn't tell us what these categories are. Searching online, we found that Youtube has 16 unique categories, and when using the `unique()` function with our `category_id` variable, they match up. The list of categories can be found here: https://techpostplus.com/youtube-video-categories-list-faqs-and-solutions/. It would be interesting to see how popularity changes with category. In order to create some pretty cool visualizations, we will add a new variable to our dataset called `category`, giving us the name of each corresponding category.
+
+```{r new-variable}
+yt$category <- 0
+
+film_animation <- "1"
+autos_vehicles <- "2"
+music <- "10"
+pets_animals <- "15"
+sports <- "17"
+travel_events <- "19"
+gaming <- "20"
+people_blogs <- "22"
+comedy <- "23"
+entertainment <- "24"
+news_politics <- "25"
+howto_style <- "26"
+education <- "27"
+science_tech <- "28"
+nonprofits_activism <- "29"
+
+for(i in 1:nrow(yt)){
+  evaluate_category_id <- yt$category_id[i]
+  if(evaluate_category_id %in% film_animation){
+    yt$category[i] <- "Film & Animation"
+  } else if(evaluate_category_id %in% autos_vehicles){
+    yt$category[i] <- "Autos & Vehicles"
+  } else if(evaluate_category_id %in% music){
+    yt$category[i] <- "Music"
+  } else if(evaluate_category_id %in% pets_animals){
+    yt$category[i] <- "Pets & Animals"
+  } else if(evaluate_category_id %in% sports){
+    yt$category[i] <- "Sports"
+  } else if(evaluate_category_id %in% travel_events){
+    yt$category[i] <- "Travel & Events"
+  } else if(evaluate_category_id %in% gaming){
+    yt$category[i] <- "Gaming"
+  } else if(evaluate_category_id %in% people_blogs){
+    yt$category[i] <- "People & Blogs"
+  } else if(evaluate_category_id %in% comedy){
+    yt$category[i] <- "Comedy"
+  } else if(evaluate_category_id %in% entertainment){
+    yt$category[i] <- "Entertainment"
+  } else if(evaluate_category_id %in% news_politics){
+    yt$category[i] <- "News & Politics"
+  } else if(evaluate_category_id %in% howto_style){
+    yt$category[i] <- "Howto & Style"
+  } else if(evaluate_category_id %in% education){
+    yt$category[i] <- "Education"
+  } else if(evaluate_category_id %in% science_tech){
+    yt$category[i] <- "Science & Technology"
+  } else if(evaluate_category_id %in% nonprofits_activism){
+    yt$category[i] <- "Nonprofits & Activism"
+  }else {
+    yt$category[i] <- "Other"
+  }}
+head(yt)
 ```
 
 
-## 3. Data analysis plan
+# 3. Data analysis plan
 
-<<<<<<< HEAD
+
+```{r data-convert}
+yt$trending_date <- as.Date(yt$trending_date, "%y.%d.%m")
+```
+
 ```{r data-date-range}
 range(yt$trending_date) #range is wrong bc r does not understand the yy.dd.mm structure
 #we need to reformat the dates to be mm.dd.yy
@@ -88,6 +154,14 @@ ggplot(data = yt, mapping = aes(x = comment_count, y = views)) + geom_point(size
 ggplot(data = yt, mapping = aes(x = month(publish_time, label = TRUE), y = views)) + geom_point(size = 0.5) + coord_polar() + labs(title = "Views and Upload Month", x="Month", y="Views")
                                                                                   
 ggplot(data = yt, mapping = aes(x = hour(publish_time), y = views)) + geom_point(size = 0.5) + coord_polar() + labs(title = "Views and Upload Time(Hour)", x="Hour", y="Views")
+
+ggplot(data = yt, mapping = aes(x = views, y = dislikes)) +
+  geom_point(size = 0.5) +
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
+
+ggplot(data = yt, mapping = aes(x = comment_count, y = dislikes)) +
+  geom_point(size = 0.5) +
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
 ```
 
 
@@ -103,7 +177,109 @@ max_views_vid_for_each_channel = yt %>%
   summarise(max_views = max(views)) %>%
   arrange(desc(max_views))
 
+#we should remove x axis labels for this one
+
 ggplot(data = max_views_vid_for_each_channel, mapping = aes(x = channel_title, y = max_views)) +
-  geom_point(size = 0.75)
+  geom_point(size = 0.75) +
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
+
 ```
 
+
+
+```{r category-likes-views, eval = FALSE}
+yt %>%
+  ggplot(mapping = aes(x = views, y = likes, color = factor(category))) +
+  geom_point(alpha = 0.15) +
+  geom_smooth(method = "lm", se = FALSE) +
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
+  labs(
+    title = "The Relationship Between YouTube Views and Likes",
+    subtitle = "by Category",
+    x = "Views",
+    y = "Likes",
+    color = "Category") +
+  theme(legend.title = element_text(size = 10), 
+        legend.text = element_text(size = 8),
+        legend.key.size = unit(0.4, "cm")) +
+  scale_colour_viridis_d()
+```
+
+
+```{r views-v-date}
+yt$publish_date <- as.Date(yt$publish_time)
+
+yt %>%
+  ggplot(data = yt, mapping = aes(x = publish_date, y = views, color = factor(category))) +
+  geom_point(alpha = 0.15) +
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
+  labs(
+    title = "The Relationship Between YouTube Views and Date",
+    subtitle = "by Category",
+    x = "Date Published",
+    y = "Views",
+    color = "Category") +
+  theme(legend.title = element_text(size = 10), 
+        legend.text = element_text(size = 8),
+        legend.key.size = unit(0.4, "cm"), 
+        axis.text.x=element_text(angle=60, hjust=1)) +
+  scale_colour_viridis_d() +
+  scale_x_date(limit=c(as.Date("2016-12-15 18:59:30 UTC"), as.Date("2018-6-30 18:59:30 UTC")), date_breaks = "1 month", date_labels = "%y-%m")
+  
+```
+
+
+```{r views-v-date-two}
+yt %>%
+  ggplot(data = yt, mapping = aes(x = publish_date, y = views)) +
+  geom_point(alpha = 0.15, aes(color = factor(yt$category))) +
+  geom_smooth(method = "lm", se = FALSE, color = 'red') +
+  labs(
+    title = "The Relationship Between YouTube Views and Date",
+    subtitle = "by Category",
+    x = "Date Published",
+    y = "Views",
+    color = "Category") +
+  theme(legend.title = element_text(size = 10), 
+        legend.text = element_text(size = 8),
+        legend.key.size = unit(0.4, "cm"), 
+        axis.text.x=element_text(angle=60, hjust=1)) +
+  scale_colour_viridis_d() +
+  scale_x_date(limit=c(as.Date("2017-10-15 18:59:30 UTC"), as.Date("2018-6-30 18:59:30 UTC")), date_breaks = "1 month", date_labels = "%y-%m") + ylim(0, 100000000)+ scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
+```
+```{r cateogry-v-views}
+yt %>%
+  ggplot(data = yt, mapping = aes(x = category, y = views)) +
+  geom_boxplot(alpha = 0.15, aes(color = factor(yt$category))) +
+  labs(
+    title = "Relationship Between YouTube Category and Views",
+    x = "Category",
+    y = "Views",
+    color = "Category") +
+  theme(axis.text.x=element_text(angle=60, hjust=1), legend.position= 'none' ) +
+  scale_colour_viridis_d() + 
+  ylim(0, 235000000)
+```
+```{r cateogry-v-views-mean}
+mean_views_for_category = yt %>%
+  group_by(category) %>%
+  summarise(mean_views = mean(views)) %>%
+  arrange(desc(mean_views))
+
+ggplot(data = mean_views_for_category, mapping = aes(x = reorder(category, mean_views), y = mean_views)) +
+  geom_point(size = 0.75) +
+  theme(axis.text.x=element_text(angle=60, hjust=1), legend.position= 'none' )
+```
+
+
+
+```{r cateogry-v-views-median}
+median_views_for_category = yt %>%
+  group_by(category) %>%
+  summarise(median_views = median(views)) %>%
+  arrange(desc(median_views))
+
+ggplot(data = median_views_for_category, mapping = aes(x = reorder(category, median_views), y = median_views)) +
+  geom_point(size = 0.75) +
+  theme(axis.text.x=element_text(angle=60, hjust=1), legend.position= 'none' )
+```
