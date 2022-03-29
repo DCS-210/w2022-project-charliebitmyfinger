@@ -7,6 +7,7 @@ output: html_document
 ```{r load-packages, message = FALSE}
 library(tidyverse)
 library(broom)
+library(lubridate)
 library(scales)
 ```
 
@@ -138,10 +139,28 @@ Since we do not know which predictor variables (or even which dependent variable
 Some visualizations of the data are shown below....
 
 ```{r data-visual}
+<<<<<<< HEAD
 ggplot(data = yt, mapping = aes(x = views, y = likes, color = publish_time), alpha = 0.1) +
   geom_point(size = 0.5) +
   scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
   facet_wrap(~category)
+=======
+ggplot(data = yt, mapping = aes(x = views, y = likes)) +
+  geom_point(size = 0.5) + labs( "Views and Likes", x="Views", y="Likes")
+
+ggplot(data = yt, mapping = aes(x = views, y = dislikes)) +
+  geom_point(size = 0.5) + labs( "Views and Dislikes", x="Views", y="Dislikes")
+
+ggplot(data = yt, mapping = aes(x = comment_count, y = dislikes)) +
+  geom_point(size = 0.5) + labs( "Comment Count and Dislikes", x="Comment Count", y="Dislikes")
+
+ggplot(data = yt, mapping = aes(x = comment_count, y = views)) + geom_point(size = 0.5) + 
+  labs( "Comment Count and View Count", x="Comment Count", y="View Count")
+
+ggplot(data = yt, mapping = aes(x = month(publish_time, label = TRUE), y = views)) + geom_point(size = 0.5) + coord_polar() + labs(title = "Views and Upload Month", x="Month", y="Views")
+                                                                                  
+ggplot(data = yt, mapping = aes(x = hour(publish_time), y = views)) + geom_point(size = 0.5) + coord_polar() + labs(title = "Views and Upload Time(Hour)", x="Hour", y="Views")
+>>>>>>> 8112da0fddb88d18aaf1402c4f42d93115f68cf2
 
 ggplot(data = yt, mapping = aes(x = views, y = dislikes, color = category)) +
   geom_point(size = 0.5) +
@@ -166,10 +185,19 @@ max_views_vid_for_each_channel = yt %>%
   summarise(max_views = max(views)) %>%
   arrange(desc(max_views))
 
+<<<<<<< HEAD
 ggplot(data = max_views_vid_for_each_channel, mapping = aes(x = reorder(channel_title, max_views), y = max_views)) +
   geom_point(size = 0.75) + 
   theme(axis.text.x=element_text(angle=90, hjust=1), legend.position= 'none' ) +
   scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
+=======
+#we should remove x axis labels for this one
+
+ggplot(data = max_views_vid_for_each_channel, mapping = aes(x = channel_title, y = max_views)) +
+  geom_point(size = 0.75) +
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
+
+>>>>>>> 8112da0fddb88d18aaf1402c4f42d93115f68cf2
 ```
 
 
@@ -232,7 +260,11 @@ yt %>%
         legend.key.size = unit(0.4, "cm"), 
         axis.text.x=element_text(angle=60, hjust=1)) +
   scale_colour_viridis_d() +
+<<<<<<< HEAD
   scale_x_date(limit=c(as.Date("2017-10-15 18:59:30 UTC"), as.Date("2018-6-30 18:59:30 UTC")), date_breaks = "1 month", date_labels = "%y-%m")
+=======
+  scale_x_date(limit=c(as.Date("2017-10-15 18:59:30 UTC"), as.Date("2018-6-30 18:59:30 UTC")), date_breaks = "1 month", date_labels = "%y-%m") + ylim(0, 100000000)+ scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
+>>>>>>> 8112da0fddb88d18aaf1402c4f42d93115f68cf2
 ```
 
 
