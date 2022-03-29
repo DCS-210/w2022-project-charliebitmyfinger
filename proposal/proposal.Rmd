@@ -138,13 +138,15 @@ Since we do not know which predictor variables (or even which dependent variable
 Some visualizations of the data are shown below....
 
 ```{r data-visual}
-ggplot(data = yt, mapping = aes(x = views, y = likes)) +
+ggplot(data = yt, mapping = aes(x = views, y = likes, color = publish_time), alpha = 0.1) +
   geom_point(size = 0.5) +
-  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
+  facet_wrap(~category)
 
-ggplot(data = yt, mapping = aes(x = views, y = dislikes)) +
+ggplot(data = yt, mapping = aes(x = views, y = dislikes, color = category)) +
   geom_point(size = 0.5) +
-  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
+  facet_wrap(~category)
 
 ggplot(data = yt, mapping = aes(x = comment_count, y = dislikes)) +
   geom_point(size = 0.5) +
@@ -164,19 +166,10 @@ max_views_vid_for_each_channel = yt %>%
   summarise(max_views = max(views)) %>%
   arrange(desc(max_views))
 
-<<<<<<< HEAD
 ggplot(data = max_views_vid_for_each_channel, mapping = aes(x = reorder(channel_title, max_views), y = max_views)) +
   geom_point(size = 0.75) + 
-  theme(axis.text.x=element_text(angle=90, hjust=1), legend.position= 'none' )
-
-
-
-#we should remove x axis labels for this one
-=======
-ggplot(data = max_views_vid_for_each_channel, mapping = aes(x = channel_title, y = max_views)) +
-  geom_point(size = 0.75) +
+  theme(axis.text.x=element_text(angle=90, hjust=1), legend.position= 'none' ) +
   scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
->>>>>>> 4a93bfbcde6f9c0cd13ce584901576d02ea7fd5d
 ```
 
 
@@ -239,14 +232,11 @@ yt %>%
         legend.key.size = unit(0.4, "cm"), 
         axis.text.x=element_text(angle=60, hjust=1)) +
   scale_colour_viridis_d() +
-  scale_x_date(limit=c(as.Date("2017-10-15 18:59:30 UTC"), as.Date("2018-6-30 18:59:30 UTC")), date_breaks = "1 month", date_labels = "%y-%m") +
-<<<<<<< HEAD
-  ylim(0, 100000000)
-=======
-  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
-  
->>>>>>> 4a93bfbcde6f9c0cd13ce584901576d02ea7fd5d
+  scale_x_date(limit=c(as.Date("2017-10-15 18:59:30 UTC"), as.Date("2018-6-30 18:59:30 UTC")), date_breaks = "1 month", date_labels = "%y-%m")
 ```
+
+
+
 ```{r cateogry-v-views}
 yt %>%
   ggplot(data = yt, mapping = aes(x = category, y = views)) +
@@ -260,6 +250,9 @@ yt %>%
   scale_colour_viridis_d() + 
   ylim(0, 235000000)
 ```
+
+
+
 ```{r cateogry-v-views-mean}
 mean_views_for_category = yt %>%
   group_by(category) %>%
@@ -267,8 +260,10 @@ mean_views_for_category = yt %>%
   arrange(desc(mean_views))
 
 ggplot(data = mean_views_for_category, mapping = aes(x = reorder(category, mean_views), y = mean_views)) +
-  geom_point(size = 0.75) +
-  theme(axis.text.x=element_text(angle=60, hjust=1), legend.position= 'none' )
+  geom_point(size = 2) +
+  geom_segment( aes(x=reorder(category, mean_views), xend=reorder(category, mean_views), y=0, yend=mean_views)) + 
+ theme(legend.position= 'none') +
+  coord_flip()
 ```
 
 
@@ -280,6 +275,8 @@ median_views_for_category = yt %>%
   arrange(desc(median_views))
 
 ggplot(data = median_views_for_category, mapping = aes(x = reorder(category, median_views), y = median_views)) +
-  geom_point(size = 0.75) +
-  theme(axis.text.x=element_text(angle=60, hjust=1), legend.position= 'none' )
+  geom_point(size = 2) +
+  geom_segment( aes(x=reorder(category, median_views), xend=reorder(category, median_views), y=0, yend=median_views)) + 
+ theme(legend.position= 'none') +
+  coord_flip()
 ```
