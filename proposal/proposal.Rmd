@@ -308,3 +308,90 @@ ggplot(data = median_views_for_category, mapping = aes(x = reorder(category, med
  theme(legend.position= 'none') +
   coord_flip()
 ```
+
+
+```{r length-of-title}
+yt = yt %>%
+  mutate(title_length = nchar(title)) #the number of characters in the title
+
+ggplot(data = yt, mapping = aes(x = title_length, y = views, color = category)) +
+  geom_point(alpha = .7) +
+ theme(legend.title = element_text(size = 10), 
+        legend.text = element_text(size = 8),
+        legend.key.size = unit(0.4, "cm"), 
+        axis.text.x=element_text(angle=60, hjust=1)) +
+  scale_colour_viridis_d() +
+  labs(
+    title = "The Relationship Between YouTube Views and # of Charcters in the Video Title",
+    subtitle = "by Category",
+    x = "# of Characters in the Video Title",
+    y = "Views",
+    color = "Category")
+```
+
+
+
+
+
+```{r length-of-title-density-version}
+ggplot(data = yt, mapping = aes(x = title_length, group = category, fill = category)) +
+  geom_density(adjust = 1.5) +
+  facet_wrap(~category) +
+ theme(legend.title = element_text(size = 10), 
+        legend.text = element_text(size = 8),
+        legend.key.size = unit(0.4, "cm"), 
+        axis.text.x=element_text(angle=60, hjust=1), panel.spacing = unit(0.1, "lines"),
+      axis.ticks.x=element_blank()) +
+  scale_colour_viridis_d() +
+  labs(
+    title = "The Relationship Between YouTube Views And # Of Charcters In The Video Title",
+    subtitle = "by Category",
+    x = "# of Characters in the Video Title",
+    y = "Views",
+    color = "Category")
+
+
+
+#IM NOT SURE IF I SET UP THE Y (VIEWS) CORRECTLY FOR THIS ONE
+```
+
+
+```{r trending-gap}
+#the trending gap is the amount of days between when a video was published and when it was trending
+
+yt = yt %>%
+  mutate(trending_gap = as.numeric(trending_date - publish_date))
+
+ggplot(data = yt, mapping = aes(x = trending_gap, y = views, color = category)) +
+  geom_point(alpha = .7) +
+ theme(legend.title = element_text(size = 10), 
+        legend.text = element_text(size = 8),
+        legend.key.size = unit(0.4, "cm"), 
+        axis.text.x=element_text(angle=60, hjust=1)) +
+  scale_colour_viridis_d() +
+  labs(
+    title = "The Relationship Between YouTube Views And # Of Days Between The Date A Video Was Published And The Date It Was Trending",
+    subtitle = "by Category",
+    x = "# Of Days Between The Date A Video Was Published And The Date It Was Trending",
+    y = "Views",
+    color = "Category")
+```
+
+
+
+```{r trending-gap-density-version}
+ggplot(data = yt, mapping = aes(x = trending_gap)) +
+  geom_histogram(binwidth = 10) +
+ theme(legend.title = element_text(size = 10), 
+        legend.text = element_text(size = 8),
+        legend.key.size = unit(0.4, "cm"), 
+        axis.text.x=element_text(angle=60, hjust=1), panel.spacing = unit(0.1, "lines"),
+      axis.ticks.x=element_blank()) +
+  scale_colour_viridis_d() +
+  labs(
+    title = "The Relationship Between YouTube Views And # Of Days Between The Date A Video Was Published And The Date It Was Trending",
+    subtitle = "by Category",
+    x = "# Of Days Between The Date A Video Was Published And The Date It Was Trending",
+    y = "Views",
+    color = "Category")
+```
