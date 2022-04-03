@@ -276,7 +276,7 @@ yt %>%
     color = "Category") +
   theme(axis.text.x=element_text(angle=60, hjust=1), legend.position= 'none' ) +
   scale_colour_viridis_d() + 
-  ylim(0, 235000000)
+  ylim(0, 235000000) + scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
 ```
 
 
@@ -291,7 +291,7 @@ ggplot(data = mean_views_for_category, mapping = aes(x = reorder(category, mean_
   geom_point(size = 2) +
   geom_segment( aes(x=reorder(category, mean_views), xend=reorder(category, mean_views), y=0, yend=mean_views)) + 
  theme(legend.position= 'none') +
-  coord_flip()
+  coord_flip() +scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
 ```
 
 
@@ -326,7 +326,7 @@ ggplot(data = yt, mapping = aes(x = title_length, y = views, color = category)) 
     subtitle = "by Category",
     x = "# of Characters in the Video Title",
     y = "Views",
-    color = "Category")
+    color = "Category") + scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
 ```
 
 
@@ -349,7 +349,7 @@ ggplot(data = yt, mapping = aes(x = title_length, y = views, color = category)) 
     subtitle = "by Category",
     x = "# of Characters in the Video Title",
     y = "Views",
-    color = "Category")
+    color = "Category") + scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
 ```
 
 
@@ -371,7 +371,7 @@ ggplot(data = yt, mapping = aes(x = trending_gap, y = views, color = category)) 
     subtitle = "by Category",
     x = "# Of Days Between The Date A Video Was Published And The Date It Was Trending",
     y = "Views",
-    color = "Category")
+    color = "Category") + scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
 ```
 
 
@@ -411,5 +411,5 @@ mean_views_vid_for_each_channel = yt %>%
 
 ggplot(mapping = aes(x = videos_per_channel$n, y = mean_views_vid_for_each_channel$mean_views)) +
   geom_point(size = 0.75) + 
-  theme(axis.text.x=element_text(angle=90, hjust=1), legend.position= 'none' )
+  theme(axis.text.x=element_text(angle=90, hjust=1), legend.position= 'none' ) + scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
 ```
