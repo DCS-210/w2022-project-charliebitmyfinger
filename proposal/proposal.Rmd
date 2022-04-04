@@ -138,94 +138,135 @@ Since we do not know which predictor variables (or even which dependent variable
 
 Some visualizations of the data are shown below....
 
-```{r data-visual}
 
+
+## Views vs. Likes
+
+```{r views-v-likes}
+#views v likes
 ggplot(data = yt, mapping = aes(x = likes, y = views)) +
-  geom_point(size = 0.5) + labs( "Views and Likes", x="Views", y="Likes")
-
-ggplot(data = yt, mapping = aes(x = likes, y = views), alpha = 0.1) +
-  geom_point(size = 0.5) +
+  geom_point(size = 0.5) + 
+  labs( "Views vs. Likes", x="Likes", y="Views") + 
   scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
-  facet_wrap(~category)
+  scale_x_continuous(labels = label_number(suffix = " M", scale = 1e-6))
 
-ggplot(data = yt, mapping = aes(x = views, y = dislikes)) +
-  geom_point(size = 0.5) + labs( "Views and Dislikes", x="Views", y="Dislikes")
 
-ggplot(data = yt, mapping = aes(x = comment_count, y = dislikes)) +
-  geom_point(size = 0.5) + labs( "Comment Count and Dislikes", x="Comment Count", y="Dislikes")
+#views v likes all w line of fit
+ggplot(data = yt, mapping = aes(x = likes, y = views)) +
+  geom_point(size = 0.5) + 
+  labs( "Views vs. Likes", x="Likes", y="Views") + 
+  geom_smooth(method = "lm", se = FALSE, color = "red") + 
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
+  scale_x_continuous(labels = label_number(suffix = " M", scale = 1e-6))
 
-ggplot(data = yt, mapping = aes(x = comment_count, y = views)) + geom_point(size = 0.5) + 
-  labs( "Comment Count and View Count", x="Comment Count", y="View Count")
+#views v likes faceted w lines of fit
+ggplot(data = yt, mapping = aes(x = likes, y = views), alpha = 0.1) +
+  geom_point(size = 0.5) + 
+  labs( "Views vs. Likes", x="Likes", y="Views") + 
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
+  geom_smooth(method = "lm", se = FALSE, color = "red") + 
+  facet_wrap(~category) +
+  scale_x_continuous(labels = label_number(suffix = " M", scale = 1e-6))
+```
 
+
+
+
+## Views vs. Dislikes
+
+```{r views-v-dislikes}
+#views v dislikes
+ggplot(data = yt, mapping = aes(x = dislikes, y = views)) +
+  geom_point(size = 0.5) + 
+  labs( "Views vs. Dislikes", x="Dislikes", y="Views") + 
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
+  scale_x_continuous(labels = label_number(suffix = " M", scale = 1e-6))
+
+
+#views v dislikes all w line of fit
+ggplot(data = yt, mapping = aes(x = dislikes, y = views)) +
+  geom_point(size = 0.5) + 
+  labs( "Views vs. Dislikes", x="Dislikes", y="Views") + 
+  geom_smooth(method = "lm", se = FALSE, color = "red") + 
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
+  scale_x_continuous(labels = label_number(suffix = " M", scale = 1e-6))
+
+#views v dislikes faceted w lines of fit
+ggplot(data = yt, mapping = aes(x = dislikes, y = views), alpha = 0.1) +
+  geom_point(size = 0.5) + 
+  labs( "Views vs. Dislikes", x="Dislikes", y="Views") + 
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
+  geom_smooth(method = "lm", se = FALSE, color = "red") + 
+  facet_wrap(~category) +
+  scale_x_continuous(labels = label_number(suffix = " M", scale = 1e-6))
+```
+
+
+
+## Views vs. Comment Count
+
+```{r views-v-comments}
+#views v comments
+ggplot(data = yt, mapping = aes(x = comment_count, y = views)) +
+  geom_point(size = 0.5) + 
+  labs( "Views vs. Comments", x="Comment Count", y="Views") + 
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
+  scale_x_continuous(labels = label_number(suffix = " M", scale = 1e-6))
+
+
+#views v comments all w line of fit
+ggplot(data = yt, mapping = aes(x = comment_count, y = views)) +
+  geom_point(size = 0.5) + 
+  labs( "Views vs. Comments", x="Comment Count", y="Views") + 
+  geom_smooth(method = "lm", se = FALSE, color = "red") + 
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
+  scale_x_continuous(labels = label_number(suffix = " M", scale = 1e-6))
+
+#views v comments faceted w lines of fit
+ggplot(data = yt, mapping = aes(x = comment_count, y = views), alpha = 0.1) +
+  geom_point(size = 0.5) + 
+  labs( "Views vs. Comments", x="Comment Count", y="Views") + 
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
+  geom_smooth(method = "lm", se = FALSE, color = "red") + 
+  facet_wrap(~category) +
+  scale_x_continuous(labels = label_number(suffix = " M", scale = 1e-6))
+```
+
+
+
+
+```{r mr-wan-time-plots}
 ggplot(data = yt, mapping = aes(x = month(publish_time, label = TRUE), y = views)) + geom_point(size = 0.5) + coord_polar() + labs(title = "Views and Upload Month", x="Month", y="Views")
                                                                                   
 ggplot(data = yt, mapping = aes(x = hour(publish_time), y = views)) + geom_point(size = 0.5) + coord_polar() + labs(title = "Views and Upload Time(Hour)", x="Hour", y="Views")
-
-
-ggplot(data = yt, mapping = aes(x = dislikes, y = views, color = category)) +
-  geom_point(size = 0.5) +
-  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
-  facet_wrap(~category)
-
-ggplot(data = yt, mapping = aes(x = comment_count, y = dislikes)) +
-  geom_point(size = 0.5) +
-  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
 ```
 
 
 ```{r max-views-by-channel}
-yt %>%
-  group_by(channel_title) %>%
-  summarise(max_views = max(views)) %>%
-  arrange(desc(max_views)) %>%
-  head()
-
 max_views_vid_for_each_channel = yt %>%
   group_by(channel_title) %>%
   summarise(max_views = max(views)) %>%
   arrange(desc(max_views))
 
+
+#in honor of dan mills....
 ggplot(data = max_views_vid_for_each_channel, mapping = aes(x = reorder(channel_title, max_views), y = max_views)) +
   geom_point(size = 0.75) + 
   theme(axis.text.x=element_text(angle=90, hjust=1), legend.position= 'none' ) +
-  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
-
-
-#we should remove x axis labels for this one
-
-ggplot(data = max_views_vid_for_each_channel, mapping = aes(x = channel_title, y = max_views)) +
-  geom_point(size = 0.75) +
-  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
-
-```
-
-
-
-```{r category-likes-views, eval = FALSE}
-yt %>%
-  ggplot(mapping = aes(x = views, y = likes, color = factor(category))) +
-  geom_point(alpha = 0.15) +
-  geom_smooth(method = "lm", se = FALSE) +
   scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
-  labs(
-    title = "The Relationship Between YouTube Views and Likes",
-    subtitle = "by Category",
-    x = "Views",
-    y = "Likes",
-    color = "Category") +
-  theme(legend.title = element_text(size = 10), 
-        legend.text = element_text(size = 8),
-        legend.key.size = unit(0.4, "cm")) +
-  scale_colour_viridis_d()
+  labs( "Max Views Video For Each Channel", x="Channel Title", y="Number of Views on Most-Viewed Video")
+
 ```
 
+## Views vs. Date Published
 
-```{r views-v-date}
+```{r views-v-date-published}
+#views v date published
 yt$publish_date <- as.Date(yt$publish_time)
 
 yt %>%
-  ggplot(data = yt, mapping = aes(x = publish_date, y = views, color = factor(category))) +
-  geom_point(alpha = 0.15) +
+  ggplot(data = yt, mapping = aes(x = publish_date, y = views)) +
+  geom_point(alpha = 0.5) +
   scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
   labs(
     title = "The Relationship Between YouTube Views and Date",
@@ -237,16 +278,14 @@ yt %>%
         legend.text = element_text(size = 8),
         legend.key.size = unit(0.4, "cm"), 
         axis.text.x=element_text(angle=60, hjust=1)) +
-  scale_colour_viridis_d() +
   scale_x_date(limit=c(as.Date("2016-12-15 18:59:30 UTC"), as.Date("2018-6-30 18:59:30 UTC")), date_breaks = "1 month", date_labels = "%y-%m")
-  
-```
 
 
-```{r views-v-date-two}
+#views v dates all w line of fit
 yt %>%
   ggplot(data = yt, mapping = aes(x = publish_date, y = views)) +
-  geom_point(alpha = 0.15, aes(color = factor(yt$category))) +
+  geom_point(alpha = 0.5) +
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
   labs(
     title = "The Relationship Between YouTube Views and Date",
     subtitle = "by Category",
@@ -257,10 +296,31 @@ yt %>%
         legend.text = element_text(size = 8),
         legend.key.size = unit(0.4, "cm"), 
         axis.text.x=element_text(angle=60, hjust=1)) +
-  scale_colour_viridis_d() +
+  scale_x_date(limit=c(as.Date("2016-12-15 18:59:30 UTC"), as.Date("2018-6-30 18:59:30 UTC")), date_breaks = "1 month", date_labels = "%y-%m") +
+  geom_smooth(method = "lm", se = FALSE, color = "red")
+
+#views v dates faceted w lines of fit
+yt %>%
+  ggplot(data = yt, mapping = aes(x = publish_date, y = views)) +
+  geom_point(alpha = 0.5) +
+  labs(
+    title = "The Relationship Between YouTube Views and Date",
+    subtitle = "by Category",
+    x = "Date Published",
+    y = "Views",
+    color = "Category") +
+  theme(legend.title = element_text(size = 10), 
+        legend.text = element_text(size = 8),
+        legend.key.size = unit(0.4, "cm"), 
+        axis.text.x=element_text(angle=60, hjust=1)) +
   scale_x_date(limit=c(as.Date("2017-10-15 18:59:30 UTC"), as.Date("2018-6-30 18:59:30 UTC")), date_breaks = "1 month", date_labels = "%y-%m") +
   scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
-  facet_wrap(~category)
+  facet_wrap(~category) +
+  geom_smooth(method = "lm", se = FALSE, color = "red")
+```
+
+```{r views-v-date-two}
+
 ```
 
 
@@ -413,4 +473,26 @@ ggplot(mapping = aes(x = videos_per_channel$n, y = mean_views_vid_for_each_chann
   geom_point(size = 0.75) + 
   theme(axis.text.x=element_text(angle=90, hjust=1), legend.position= 'none' )
 
+```
+
+
+
+
+
+```{r category-likes-views, eval = FALSE}
+yt %>%
+  ggplot(mapping = aes(x = views, y = likes, color = factor(category))) +
+  geom_point(alpha = 0.15) +
+  geom_smooth(method = "lm", se = FALSE) +
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
+  labs(
+    title = "The Relationship Between YouTube Views and Likes",
+    subtitle = "by Category",
+    x = "Views",
+    y = "Likes",
+    color = "Category") +
+  theme(legend.title = element_text(size = 10), 
+        legend.text = element_text(size = 8),
+        legend.key.size = unit(0.4, "cm")) +
+  scale_colour_viridis_d()
 ```
