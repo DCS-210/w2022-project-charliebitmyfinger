@@ -189,7 +189,7 @@ ggplot(data = yt, mapping = aes(x = likes, y = views, color = category), alpha =
 
 ## Views vs. Dislikes
 
-```{r views-v-dislikes, echo = FALSE, message = FALSE}
+```{r views-v-dislikes, echo = FALSE, message = FALSE,}
 #views v dislikes
 ggplot(data = yt, mapping = aes(x = dislikes, y = views, color = category)) +
   geom_point(size = 0.5, alpha = 0.5) + 
