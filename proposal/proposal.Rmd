@@ -418,18 +418,21 @@ yt %>%
 ```
 
 ```{r cateogry-v-views-mean, echo = FALSE, message = FALSE}
-mean_views_for_category = yt %>%
+
+views_for_category = yt %>%
   group_by(category) %>%
-  summarise(mean_views = mean(views)) %>%
+  summarise(mean_views = mean(views), median_views = median(views)) %>%
   arrange(desc(mean_views))
 
-ggplot(data = mean_views_for_category, mapping = aes(x = reorder(category, mean_views), y = mean_views)) +
-  geom_point(size = 2) +
-  geom_segment( aes(x=reorder(category, mean_views), xend=reorder(category, mean_views), y=0, yend=mean_views)) + 
- theme(legend.position= 'none') +
+ggplot(data = views_for_category) +
+  geom_segment(aes(x=reorder(category, mean_views), xend=reorder(category, mean_views), y=median_views, yend=mean_views)) + 
+  geom_point( aes(x=reorder(category, mean_views), y=median_views), color= "green", size=2 ) +
+  geom_point( aes(x=reorder(category, mean_views), y=mean_views), color= "purple", size=2 ) +
+ theme(legend.position = 'none') +
   coord_flip() + 
   scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
-  labs( "Mean Views For Each Category", x="Mean Views", y="Category")
+  labs( title = "Mean and Median Views For Each Category", subtitle = "green is median, purple is mean", x=" Number of Views", y="Category")
+
 ```
 
 ```{r cateogry-v-views-median, echo = FALSE, message = FALSE}
@@ -504,7 +507,7 @@ mean_views_vid_for_each_channel = yt %>%
 ggplot(mapping = aes(x = videos_per_channel$n, y = mean_views_vid_for_each_channel$mean_views)) +
   geom_point(size = 0.75) +
   theme(axis.text.x=element_text(angle=90, hjust=1), legend.position= 'none') +
-  labs(title = "",
+  labs(title = "Mean Views Per Channel In Comparison to Number of Videos Per Channel",
     x = "The Number of Videos Per Channel",
     y = "The Mean Number of Views Per Video for Each Channel")
 ```
