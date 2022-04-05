@@ -503,7 +503,6 @@ mean_views_vid_for_each_channel = yt %>%
   summarise(mean_views = mean(views)) %>%
   arrange(desc(mean_views))
 
-
 ggplot(mapping = aes(x = videos_per_channel$n, y = mean_views_vid_for_each_channel$mean_views)) +
   geom_point(size = 0.75) +
   theme(axis.text.x=element_text(angle=90, hjust=1), legend.position= 'none') +
