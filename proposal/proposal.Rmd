@@ -198,7 +198,6 @@ ggplot(data = yt, mapping = aes(x = dislikes, y = views, color = category)) +
   scale_x_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
   scale_colour_viridis_d()
 
-
 #views v dislikes all w line of fit
 ggplot(data = yt, mapping = aes(x = dislikes, y = views, color = category)) +
   geom_point(size = 0.5, alpha = 0.5) + 
@@ -218,12 +217,6 @@ ggplot(data = yt, mapping = aes(x = dislikes, y = views, color = category), alph
   scale_x_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
   scale_colour_viridis_d()
 ```
-
-
-
-
-
-
 
 ## Views vs. Comment Count
 
@@ -257,13 +250,6 @@ ggplot(data = yt, mapping = aes(x = comment_count, y = views, color = category),
   scale_colour_viridis_d()
 ```
 
-
-
-
-
-
-
-
 ## Views vs. Date Published
 
 ```{r views-v-date-published, echo = FALSE, message = FALSE, warning = FALSE}
@@ -286,7 +272,6 @@ yt %>%
         axis.text.x=element_text(angle=60, hjust=1)) +
   scale_x_date(limit=c(as.Date("2016-12-15 18:59:30 UTC"), as.Date("2018-6-30 18:59:30 UTC")), date_breaks = "1 month", date_labels = "%y-%m") +
   scale_colour_viridis_d()
-
 
 #views v dates all w line of fit
 yt %>%
@@ -335,7 +320,8 @@ ggplot(data = yt, mapping = aes(x = month(publish_time, label = TRUE), y = views
   coord_polar() + 
   labs(title = "Views and Upload Time (Month)", x="Month", y="Views") + 
   scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
-                                                                                  
+                                                    
+                             
 ggplot(data = yt, mapping = aes(x = hour(publish_time), y = views)) + 
   geom_point(size = 0.5) + 
   coord_polar() + 
@@ -343,22 +329,7 @@ ggplot(data = yt, mapping = aes(x = hour(publish_time), y = views)) +
   scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Views v Number Of Characters In Video Title
-
 
 ```{r length-of-title, echo = FALSE, message = FALSE, warning = FALSE}
 yt = yt %>%
@@ -418,17 +389,6 @@ ggplot(data = yt, mapping = aes(x = title_length, y = views, color = category)) 
   geom_smooth(method = "lm", se = FALSE, color = "red")
 ```
 
-
-
-
-
-
-
-
-
-
-
-
 ## Category Analysis
 
 ```{r videos-per-category, echo = FALSE, message = FALSE}
@@ -442,7 +402,6 @@ ggplot(videos_per_category, aes(x=reorder(category, n), y=n)) +
   labs(title = "Number of Videos In Each Category", x="Category", y="# of Videos") +
    theme(axis.text.x=element_text(angle=60, hjust=1), legend.position= 'none')
 ```
-
 
 ```{r cateogry-v-views, echo = FALSE, message = FALSE}
 yt %>%
@@ -458,23 +417,23 @@ yt %>%
   ylim(0, 235000000) + scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
 ```
 
-
 ```{r cateogry-v-views-mean, echo = FALSE, message = FALSE}
-mean_views_for_category = yt %>%
+
+views_for_category = yt %>%
   group_by(category) %>%
-  summarise(mean_views = mean(views)) %>%
+  summarise(mean_views = mean(views), median_views = median(views)) %>%
   arrange(desc(mean_views))
 
-ggplot(data = mean_views_for_category, mapping = aes(x = reorder(category, mean_views), y = mean_views)) +
-  geom_point(size = 2) +
-  geom_segment( aes(x=reorder(category, mean_views), xend=reorder(category, mean_views), y=0, yend=mean_views)) + 
- theme(legend.position= 'none') +
+ggplot(data = views_for_category) +
+  geom_segment(aes(x=reorder(category, mean_views), xend=reorder(category, mean_views), y=median_views, yend=mean_views)) + 
+  geom_point( aes(x=reorder(category, mean_views), y=median_views), color= "green", size=2 ) +
+  geom_point( aes(x=reorder(category, mean_views), y=mean_views), color= "purple", size=2 ) +
+ theme(legend.position = 'none') +
   coord_flip() + 
   scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
-  labs( "Mean Views For Each Category", x="Mean Views", y="Category")
+  labs( title = "Mean and Median Views For Each Category", subtitle = "green is median, purple is mean", x=" Number of Views", y="Category")
+
 ```
-
-
 
 ```{r cateogry-v-views-median, echo = FALSE, message = FALSE}
 median_views_for_category = yt %>%
@@ -490,8 +449,6 @@ ggplot(data = median_views_for_category, mapping = aes(x = reorder(category, med
   scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
   labs( "Median Views For Each Category", x="Median Views", y="Category")
 ```
-
-
 
 ## Other Plots
 
@@ -509,10 +466,6 @@ ggplot(data = max_views_vid_for_each_channel, mapping = aes(x = reorder(channel_
   scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
   labs( "Max Views Video For Each Channel", x="Channel Title", y="# of Views on Most-Viewed Video")
 ```
-
-
-
-
 
 ```{r trending-gap, echo = FALSE, message = FALSE, warning = FALSE}
 #the trending gap is the amount of days between when a video was published and when it was trending
@@ -537,8 +490,6 @@ ggplot(data = yt, mapping = aes(x = trending_gap, y = views, color = category)) 
 
 The takeaway from the plot above is that the videos that do garner many views tend to begin trending shortly after they are published.
 
-
-
 ```{r videos-per-channel, echo = FALSE, message = FALSE, warning = FALSE}
 #do videos from channels that have more videos tend to get more views?
 
@@ -552,9 +503,10 @@ mean_views_vid_for_each_channel = yt %>%
   summarise(mean_views = mean(views)) %>%
   arrange(desc(mean_views))
 
-
 ggplot(mapping = aes(x = videos_per_channel$n, y = mean_views_vid_for_each_channel$mean_views)) +
   geom_point(size = 0.75) +
-  theme(axis.text.x=element_text(angle=90, hjust=1), legend.position= 'none' )
-
+  theme(axis.text.x=element_text(angle=90, hjust=1), legend.position= 'none') +
+  labs(title = "Mean Views Per Channel In Comparison to Number of Videos Per Channel",
+    x = "The Number of Videos Per Channel",
+    y = "The Mean Number of Views Per Video for Each Channel")
 ```
