@@ -333,7 +333,7 @@ yt %>%
 ggplot(data = yt, mapping = aes(x = month(publish_time, label = TRUE), y = views)) +
   geom_point(size = 0.5) + 
   coord_polar() + 
-  labs(title = "Views and Upload Month", x="Month", y="Views") + 
+  labs(title = "Views and Upload Time (Month)", x="Month", y="Views") + 
   scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
                                                                                   
 ggplot(data = yt, mapping = aes(x = hour(publish_time), y = views)) + 
