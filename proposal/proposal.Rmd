@@ -4,6 +4,13 @@ author: "charliebitmyfinger"
 output: html_document
 ---
 
+Accessibility:
+
+alt text.... {r , fig.alt = "ur alt text"}
+
+scale_colour_viridis_d() or scale_fill_viridis_d()
+
+
 ```{r load-packages, message = FALSE, echo = FALSE}
 library(tidyverse)
 library(broom)
@@ -462,7 +469,9 @@ ggplot(data = mean_views_for_category, mapping = aes(x = reorder(category, mean_
   geom_point(size = 2) +
   geom_segment( aes(x=reorder(category, mean_views), xend=reorder(category, mean_views), y=0, yend=mean_views)) + 
  theme(legend.position= 'none') +
-  coord_flip() +scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
+  coord_flip() + 
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
+  labs( "Mean Views For Each Category", x="Mean Views", y="Category")
 ```
 
 
@@ -477,7 +486,9 @@ ggplot(data = median_views_for_category, mapping = aes(x = reorder(category, med
   geom_point(size = 2) +
   geom_segment( aes(x=reorder(category, median_views), xend=reorder(category, median_views), y=0, yend=median_views)) + 
  theme(legend.position= 'none') +
-  coord_flip()
+  coord_flip() +
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
+  labs( "Median Views For Each Category", x="Median Views", y="Category")
 ```
 
 
