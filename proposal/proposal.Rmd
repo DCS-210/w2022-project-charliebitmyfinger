@@ -426,28 +426,13 @@ views_for_category = yt %>%
 
 ggplot(data = views_for_category) +
   geom_segment(aes(x=reorder(category, mean_views), xend=reorder(category, mean_views), y=median_views, yend=mean_views)) + 
-  geom_point( aes(x=reorder(category, mean_views), y=median_views), color= "green", size=2 ) +
+  geom_point( aes(x=reorder(category, mean_views), y=median_views), color= "dark green", size=2 ) +
   geom_point( aes(x=reorder(category, mean_views), y=mean_views), color= "purple", size=2 ) +
  theme(legend.position = 'none') +
   coord_flip() + 
   scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
-  labs( title = "Mean and Median Views For Each Category", subtitle = "green is median, purple is mean", x=" Number of Views", y="Category")
+  labs( title = "Mean and Median Views For Each Category", subtitle = "green is median, purple is mean", y=" Number of Views", x="Category")
 
-```
-
-```{r cateogry-v-views-median, echo = FALSE, message = FALSE}
-median_views_for_category = yt %>%
-  group_by(category) %>%
-  summarise(median_views = median(views)) %>%
-  arrange(desc(median_views))
-
-ggplot(data = median_views_for_category, mapping = aes(x = reorder(category, median_views), y = median_views)) +
-  geom_point(size = 2) +
-  geom_segment( aes(x=reorder(category, median_views), xend=reorder(category, median_views), y=0, yend=median_views)) + 
- theme(legend.position= 'none') +
-  coord_flip() +
-  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
-  labs( "Median Views For Each Category", x="Median Views", y="Category")
 ```
 
 ## Other Plots
