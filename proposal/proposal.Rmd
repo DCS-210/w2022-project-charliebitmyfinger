@@ -10,6 +10,10 @@ alt text.... {r , fig.alt = "ur alt text"}
 
 scale_colour_viridis_d() or scale_fill_viridis_d()
 
+write up: readme description of the project - pointing out most important findings (kinda like https://dcs-210.github.io/project-matt-annie-ethan/)
+
+
+
 
 ```{r load-packages, message = FALSE, echo = FALSE}
 library(tidyverse)
