@@ -149,11 +149,6 @@ Since we do not know which predictor variables (or even which dependent variable
 
 Some visualizations of the data are shown below....
 
-
-
-
-
-
 ## Views vs. Likes
 
 ```{r views-v-likes, echo = FALSE, message = FALSE}
