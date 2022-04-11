@@ -1,11 +1,11 @@
 ---
-title: "Presentation title"
-subtitle: "Presentation subtitle (if any)"
-author: "Team name <br> Names of team members"
+title: "Exploring Factors of Popularity in U.S. Youtube Videos"
+subtitle: "What makes a Youtube video popular?"
+author: "CharlieBitMyFinger <br> Jesse Solinger, Oliver Wan, and Riley Burns"
 institute: "Bates College"
 date: "`r Sys.Date()`"
 output:
-  xaringan::moon_reader:
+  xaringan::moon_reader: 
     css: xaringan-themer.css
     lib_dir: libs
     nature:
@@ -33,18 +33,26 @@ knitr::opts_chunk$set(fig.retina = 3, dpi = 300, fig.width = 6, fig.asp = 0.618,
 # Load your data here
 ```
 
-```{r, echo=FALSE}
+```{r, echo = FALSE}
 style_xaringan(
-  title_slide_background_image = "img/confetti.jpg"
+  title_slide_background_image = "img/3ebb12890a8a5405b80a9f63e268b1aa.jpg"
 )
 ```
 
----
 
-class: center, middle
+class: left, top
 
-## A statement of the overall goals / research question
+## Research Question and Project Goals
 
+What makes a Youtube video popular?
+
+We aim to examine what makes a Youtube video popular using a dataset from Kaggle.com, containing trending Youtube video statistics.
+
+```{r, out.width='35%', fig.align='center', echo = FALSE}
+knitr::include_graphics('img/wired-youtube.jpg.webp')
+```
+
+The Kaggle dataset used contains data from 10 different countries, but for the purpose of this project, we will stick to data from the U.S.
 ---
 
 class: inverse, center, middle
