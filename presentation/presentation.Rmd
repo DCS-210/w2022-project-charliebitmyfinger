@@ -22,6 +22,14 @@ library(tidymodels)
 library(palmerpenguins)
 library(knitr)
 library(xaringanthemer)
+library(RColorBrewer)
+library(stringr)
+library(ggplot2)
+library(hrbrthemes)
+library(ggspatial)
+library(gifski)
+library(lubridate)
+library(gganimate)
 ```
 
 ```{r setup, include=FALSE}
@@ -32,6 +40,60 @@ knitr::opts_chunk$set(fig.retina = 3, dpi = 300, fig.width = 6, fig.asp = 0.618,
 ```{r load-data, echo = FALSE, include=FALSE}
 # Load your data here
 yt <- readr::read_csv(file = "../data/USvideos.csv")
+
+yt$category <- 0
+
+film_animation <- "1"
+autos_vehicles <- "2"
+music <- "10"
+pets_animals <- "15"
+sports <- "17"
+travel_events <- "19"
+gaming <- "20"
+people_blogs <- "22"
+comedy <- "23"
+entertainment <- "24"
+news_politics <- "25"
+howto_style <- "26"
+education <- "27"
+science_tech <- "28"
+nonprofits_activism <- "29"
+
+for(i in 1:nrow(yt)){
+  evaluate_category_id <- yt$category_id[i]
+  if(evaluate_category_id %in% film_animation){
+    yt$category[i] <- "Film & Animation"
+  } else if(evaluate_category_id %in% autos_vehicles){
+    yt$category[i] <- "Autos & Vehicles"
+  } else if(evaluate_category_id %in% music){
+    yt$category[i] <- "Music"
+  } else if(evaluate_category_id %in% pets_animals){
+    yt$category[i] <- "Pets & Animals"
+  } else if(evaluate_category_id %in% sports){
+    yt$category[i] <- "Sports"
+  } else if(evaluate_category_id %in% travel_events){
+    yt$category[i] <- "Travel & Events"
+  } else if(evaluate_category_id %in% gaming){
+    yt$category[i] <- "Gaming"
+  } else if(evaluate_category_id %in% people_blogs){
+    yt$category[i] <- "People & Blogs"
+  } else if(evaluate_category_id %in% comedy){
+    yt$category[i] <- "Comedy"
+  } else if(evaluate_category_id %in% entertainment){
+    yt$category[i] <- "Entertainment"
+  } else if(evaluate_category_id %in% news_politics){
+    yt$category[i] <- "News & Politics"
+  } else if(evaluate_category_id %in% howto_style){
+    yt$category[i] <- "Howto & Style"
+  } else if(evaluate_category_id %in% education){
+    yt$category[i] <- "Education"
+  } else if(evaluate_category_id %in% science_tech){
+    yt$category[i] <- "Science & Technology"
+  } else if(evaluate_category_id %in% nonprofits_activism){
+    yt$category[i] <- "Nonprofits & Activism"
+  }else {
+    yt$category[i] <- "Other"
+  }}
 ```
 
 ```{r, echo = FALSE}
@@ -67,11 +129,41 @@ The year this data is taken from was not provided but we are told it "includes s
 
 ---
 
-# Hello World
+# How Do Likes Impact Views?
 
+.pull-left[
+```{r likes-views, echo = FALSE, message = FALSE, out.width = "150%"}
+ggplot(data = yt, mapping = aes(x = likes, y = views, color = category)) +
+  geom_point(size = 0.5, alpha = 0.5) + 
+  theme(legend.title = element_text(size=20),
+        legend.text = element_text(size=15)) +
+  guides(color = guide_legend(override.aes = list(size = 4))) +
+  labs( "Views vs. Likes", x="Likes", y="Views", color = "Category") + 
+  geom_smooth(method = "lm", se = FALSE, color = "red") + 
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
+  scale_x_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
+  scale_colour_viridis_d()
+```
+]
+
+.pull-right[
+```{r likes-views-faceted, echo=FALSE, message=FALSE, out.width= "150%"}
+ggplot(data = yt, mapping = aes(x = likes, y = views, color = category), alpha = 0.1) +
+  geom_point(alpha = 0.5) + 
+  theme(legend.title = element_text(size=20),
+        legend.text = element_text(size=15)) +
+  guides(color = guide_legend(override.aes = list(size = 4))) +
+  labs( "Views vs. Likes", x="Likes", y="Views", color = "Category") + 
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
+  geom_smooth(method = "lm", se = FALSE, color = "red") + 
+  facet_wrap(~category) +
+  scale_x_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
+  scale_colour_viridis_d()
+```
+]
 --
 
-- Click the `Knit` button to compile your presentation
+# How Do Dislikes Impact Views?
 
 --
 
