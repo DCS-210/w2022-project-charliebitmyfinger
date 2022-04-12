@@ -55,9 +55,9 @@ knitr::include_graphics('img/wired-youtube.jpg.webp')
 The Kaggle dataset used contains data from 10 different countries, but for the purpose of this project, we will stick to data from the U.S.
 ---
 
-class: inverse, center, middle
+class: left, top
 
-# Section title
+# Youtube Data
 
 ---
 
