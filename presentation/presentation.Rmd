@@ -132,11 +132,11 @@ The year this data is taken from was not provided but we are told it "includes s
 # How Do Likes Impact Views?
 
 .pull-left[
-```{r likes-views, echo = FALSE, message = FALSE, out.width = "150%"}
+```{r likes-views, echo = FALSE, message = FALSE, out.width = "100%"}
 ggplot(data = yt, mapping = aes(x = likes, y = views, color = category)) +
   geom_point(size = 0.5, alpha = 0.5) + 
-  theme(legend.title = element_text(size=20),
-        legend.text = element_text(size=15)) +
+  theme(legend.title = element_text(size=18),
+        legend.text = element_text(size=14)) +
   guides(color = guide_legend(override.aes = list(size = 4))) +
   labs( "Views vs. Likes", x="Likes", y="Views", color = "Category") + 
   geom_smooth(method = "lm", se = FALSE, color = "red") + 
@@ -147,11 +147,11 @@ ggplot(data = yt, mapping = aes(x = likes, y = views, color = category)) +
 ]
 
 .pull-right[
-```{r likes-views-faceted, echo=FALSE, message=FALSE, out.width= "150%"}
+```{r likes-views-faceted, echo=FALSE, message=FALSE, out.width= "100%"}
 ggplot(data = yt, mapping = aes(x = likes, y = views, color = category), alpha = 0.1) +
   geom_point(alpha = 0.5) + 
-  theme(legend.title = element_text(size=20),
-        legend.text = element_text(size=15)) +
+  theme(legend.title = element_text(size=18),
+        legend.text = element_text(size=14)) +
   guides(color = guide_legend(override.aes = list(size = 4))) +
   labs( "Views vs. Likes", x="Likes", y="Views", color = "Category") + 
   scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
@@ -161,13 +161,43 @@ ggplot(data = yt, mapping = aes(x = likes, y = views, color = category), alpha =
   scale_colour_viridis_d()
 ```
 ]
---
+
+---
 
 # How Do Dislikes Impact Views?
 
---
+.pull-left[
+```{r dislikes-views, echo=FALSE, message=FALSE, out.width= "100%"}
+#views v dislikes all w line of fit
+ggplot(data = yt, mapping = aes(x = dislikes, y = views, color = category)) +
+  geom_point(size = 0.5, alpha = 0.5) +
+  theme(legend.title = element_text(size=18),
+        legend.text = element_text(size=14)) +
+  guides(color = guide_legend(override.aes = list(size = 4))) +
+  labs( "Views vs. Dislikes", x="Dislikes", y="Views", color = "Category") + 
+  geom_smooth(method = "lm", se = FALSE, color = "red") + 
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
+  scale_x_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
+  scale_colour_viridis_d()
+```
+]
 
-- Make sure to commit and push all resulting files to your GitHub repo
+.pull-right[
+```{r dislikes-views-faceted, echo=FALSE, message=FALSE, out.width= "100%"}
+#views v dislikes faceted w lines of fit
+ggplot(data = yt, mapping = aes(x = dislikes, y = views, color = category), alpha = 0.1) +
+  geom_point(alpha = 0.5) + 
+  theme(legend.title = element_text(size=18),
+        legend.text = element_text(size=14)) +
+  guides(color = guide_legend(override.aes = list(size = 4))) +
+  labs( "Views vs. Dislikes", x="Dislikes", y="Views", color = "Category") + 
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
+  geom_smooth(method = "lm", se = FALSE, color = "red") + 
+  facet_wrap(~category) +
+  scale_x_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
+  scale_colour_viridis_d()
+```
+]
 
 ---
 
