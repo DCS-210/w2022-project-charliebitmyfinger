@@ -29,8 +29,9 @@ library(xaringanthemer)
 knitr::opts_chunk$set(fig.retina = 3, dpi = 300, fig.width = 6, fig.asp = 0.618, out.width = "80%")
 ```
 
-```{r load-data, include=FALSE}
+```{r load-data, echo = FALSE, include=FALSE}
 # Load your data here
+yt <- readr::read_csv(file = "../data/USvideos.csv")
 ```
 
 ```{r, echo = FALSE}
@@ -40,24 +41,29 @@ style_xaringan(
 ```
 
 
-class: left, top
+class: left, middle
 
-## Research Question and Project Goals
+## Research Question
 
-What makes a Youtube video popular?
+What makes a Youtube video popular? And what factors contribute to videos' popularity? 
 
-We aim to examine what makes a Youtube video popular using a dataset from Kaggle.com, containing trending Youtube video statistics.
+Youtube maintains a list of top trending videos posted on their platform each year. According to Variety magazine, Youtube does not base their top trending video list solely on views. They measure user interactions (number of views, shares, comments and likes), which all impact video popularity. 
 
-```{r, out.width='35%', fig.align='center', echo = FALSE}
-knitr::include_graphics('img/wired-youtube.jpg.webp')
-```
+Keeping this in mind, we will explore what specific factors contribute to popularity and maybe how we can predict a video's eventual popularity.
 
-The Kaggle dataset used contains data from 10 different countries, but for the purpose of this project, we will stick to data from the U.S.
 ---
 
 class: left, top
 
-# Youtube Data
+# Trending Youtube Video Statistics
+
+We aim to examine what makes a Youtube video popular using a dataset from Kaggle.com, containing a daily record of the top trending Youtube videos and their statistics. The dataset includes the video title, channel title, publish time, tags, views, likes and dislikes, description, and comment count. The data also contains data from 10 different countries, but for the purpose of this project, we will stick to data from the U.S.
+
+```{r, out.width='35%', fig.align='center', fig.cap = "url(https://www.wired.co.uk/article/youtube-migration-videos)", echo = FALSE}
+knitr::include_graphics("img/wired-youtube.jpg.webp")
+```
+
+The year this data is taken from was not provided but we are told it "includes several months (and counting)."
 
 ---
 
