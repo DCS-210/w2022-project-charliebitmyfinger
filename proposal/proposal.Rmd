@@ -490,5 +490,5 @@ ggplot(mapping = aes(x = videos_per_channel$n, y = mean_views_vid_for_each_chann
   theme(axis.text.x=element_text(angle=90, hjust=1), legend.position= 'none') +
   labs(title = "Mean Views Per Channel In Comparison to Number of Videos Per Channel",
     x = "The Number of Videos Per Channel",
-    y = "The Mean Number of Views Per Video for Each Channel")
+    y = "The Mean Number of Views Per Video for Each Channel") + scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
 ```
