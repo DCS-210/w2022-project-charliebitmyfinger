@@ -119,13 +119,11 @@ class: left, top
 
 # Trending Youtube Video Statistics
 
-We aim to examine what makes a Youtube video popular using a dataset from Kaggle.com, containing a daily record of the top trending Youtube videos and their statistics. The dataset includes the video title, channel title, publish time, tags, views, likes and dislikes, description, and comment count. The data also contains data from 10 different countries, but for the purpose of this project, we will stick to data from the U.S.
+We aim to examine what makes a Youtube video popular using a dataset from Kaggle.com, containing a daily record of the top trending Youtube videos and their statistics. The dataset includes the video title, channel title, publish time, tags, views, likes and dislikes, description, and comment count. The data also contains data from 10 different countries, but for the purpose of this project, we will stick to data from the U.S. It's also important to note that this dataset uses Youtube data from 2017 to 2018.
 
 ```{r, out.width='35%', fig.align='center', fig.cap = "url(https://www.wired.co.uk/article/youtube-migration-videos)", echo = FALSE}
 knitr::include_graphics("img/wired-youtube.jpg.webp")
 ```
-
-This dataset takes Youtube data from 2017 to 2018.
 
 ---
 
@@ -262,7 +260,7 @@ ggplot(data = yt, mapping = aes(x = month(publish_time, label = TRUE), y = views
 ```
 ]
 .pull-right[
-```{r views vs hour,echo=FALSE, message=FALSE, out.width= "100%"}
+```{r views vs hour, echo=FALSE, message=FALSE, out.width= "100%"}
 ggplot(data = yt, mapping = aes(x = hour(publish_time), y = views)) + 
   geom_point(size = 0.5) + 
   coord_polar() + 
@@ -271,74 +269,38 @@ ggplot(data = yt, mapping = aes(x = hour(publish_time), y = views)) +
 ```
 ]
 
-
-
-
-class: inverse, middle, center
-
-# Using xaringan
-
 ---
 
-# xaringan
+# How Many Videos are Produced Within Each Category?
 
-- The presentation is created using the `xaringan` package
+```{r category-videos, echo=FALSE, message=FALSE, fig.align='center', out.width= "70%"}
+videos_per_category = yt %>%
+    group_by(category) %>%
+    count %>%
+    arrange(desc(n))
 
-- Use `---` to separate slides and `--` for incremental builds
-
---
-
-- Like this
-
----
-
-# Layouts
-
-You can use plain text
-
-- or bullet points
-
-.pull-left[
-or text in two columns $^*$
-]
-.pull-right[
-- like
-- this
-]
-
-.footnote[
-[*] And add footnotes
-]
-
----
-
-# Code
-
-```{r boring-regression, echo=FALSE, warning=FALSE, message=FALSE}
-# a boring regression
-model <- lm(dist ~ speed, data = cars)
-tidy(model)
-glance(model)
+ggplot(videos_per_category, aes(x=reorder(category, n), y=n)) + 
+  geom_bar(stat = "identity") +
+  labs(title = "Number of Videos In Each Category", x="Category", y="# of Videos") +
+   theme(axis.text.x=element_text(angle=60, hjust=1), legend.position= 'none')
 ```
 
 ---
 
-# Plots
+# What is the Relationship Between Views and Category?
 
-```{r recode-species, echo = FALSE}
-# In this chunk I'm doing a bunch of analysis that I don't want to present 
-# in my slides. But I need the resulting data frame for a plot I want to present.
-iris_modified <- iris %>%
-  mutate(Species = fct_other(Species, keep = "setosa"))
-```
-
-```{r plot-iris, echo = FALSE}
-# Code hidden with echo = FALSE
-# Uses modified iris dataset from previous chunk
-# Play around with height and width until you're happy with the look
-ggplot(data = iris_modified, mapping = aes(x = Sepal.Width, y = Sepal.Length, color = Species)) +
-  geom_point() + 
-  theme_minimal() # theme options: https://ggplot2.tidyverse.org/reference/ggtheme.html
+```{r category-v-views, echo=FALSE, message=FALSE, fig.align='center', out.width= "70%"}
+yt %>%
+  ggplot(data = yt, mapping = aes(x = category, y = views)) +
+  geom_boxplot(alpha = 0.15, aes(color = factor(yt$category))) +
+  labs(
+    title = "Relationship Between YouTube Category and Views",
+    x = "Category",
+    y = "Views",
+    color = "Category") +
+  theme(axis.text.x=element_text(angle=60, hjust=1), legend.position= 'none' ) +
+  scale_colour_viridis_d() + 
+  ylim(0, 235000000) + scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
 ```
 
 ---
@@ -361,16 +323,6 @@ ggplot(penguins, aes(x = bill_length_mm, y = species, color = species)) +
 
 ---
 
-# Tables
-
-If you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,
-
-```{r iris-table, echo = FALSE}
-kable(head(iris), format = "html")
-```
-
----
-
 # Images
 
 ```{r castle, echo = FALSE, out.width = "60%", fig.align = "center", fig.cap = "Image credit: Photo by Jörg Angeli on Unsplash."}
@@ -385,16 +337,6 @@ background-image: url(https://images.unsplash.com/photo-1535448033526-c0e85c9e69
 
 ---
 
-# Math Expressions
-
-You can write LaTeX math expressions inside a pair of dollar signs, e.g. &#36;\alpha+\beta$ renders $\alpha+\beta$. You can use the display style with double dollar signs:
-
-```
-$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
-```
-
-$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
-
 Limitations:
 
 1. The source code of a LaTeX math expression must be in one line, unless it is inside a pair of double dollar signs, in which case the starting `$$` must appear in the very beginning of a line, followed immediately by a non-space character, and the ending `$$` must be at the end of a line, led by a non-space character;
@@ -404,14 +346,3 @@ Limitations:
 1. Math does not work on the title slide (see [#61](https://github.com/yihui/xaringan/issues/61) for a workaround).
 
 ---
-
-# Feeling adventurous?
-
-- Want to find out more about `xaringan`? See https://slides.yihui.name/xaringan/#1.
-
-- You are welcomed to use the default styling of the slides. In fact, that's what I expect majority of you will do. You will differentiate yourself with the content of your presentation.
-
-- But some of you might want to play around with slide styling. The 
-`xaringanthemer` provides some solutions for this that: https://pkg.garrickadenbuie.com/xaringanthemer.
-
-- And if you want more bells and whistles, there is also `xaringanExtra`: https://pkg.garrickadenbuie.com/xaringanExtra.
