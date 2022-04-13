@@ -30,6 +30,7 @@ library(ggspatial)
 library(gifski)
 library(lubridate)
 library(gganimate)
+library(pagedown)
 ```
 
 ```{r setup, include=FALSE}
@@ -345,4 +346,5 @@ knitr::include_graphics("img/210524-charlie-bit-my-finger-se-1035a.webp")
 ```
 
 ---
+
 
