@@ -103,7 +103,7 @@ style_xaringan(
 ```
 
 
-class: left, middle
+class: left, top
 
 ## Research Question
 
@@ -121,7 +121,7 @@ class: left, top
 
 We aim to examine what makes a Youtube video popular using a dataset from Kaggle.com, containing a daily record of the top trending Youtube videos and their statistics. The dataset includes the video title, channel title, publish time, tags, views, likes and dislikes, description, and comment count. The data also contains data from 10 different countries, but for the purpose of this project, we will stick to data from the U.S. It's also important to note that this dataset uses Youtube data from 2017 to 2018.
 
-```{r, out.width='35%', fig.align='center', fig.cap = "url(https://www.wired.co.uk/article/youtube-migration-videos)", echo = FALSE}
+```{r, out.width='35%', fig.align='center', fig.cap = "Image Credit: url(https://www.wired.co.uk/article/youtube-migration-videos)", echo = FALSE}
 knitr::include_graphics("img/wired-youtube.jpg.webp")
 ```
 
@@ -248,7 +248,7 @@ yt %>%
 
 ---
 
-#How Does Time Impact Views (Months and Minutes)
+#How Does Time Impact Views? (Months and Minutes)
 
 .pull-left[
 ```{r views vs month,echo=FALSE, message=FALSE, warning=FALSE, out.width= "100%"}
@@ -302,47 +302,47 @@ yt %>%
   scale_colour_viridis_d() + 
   ylim(0, 235000000) + scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
 ```
+---
+
+class: left, top
+
+# Conclusions
 
 ---
 
-## Plot and text
+class: left, top
 
-.pull-left[
-- Some text
-- goes here
-]
-.pull-right[
-```{r warning=FALSE, out.width="100%", fig.width=4, echo=FALSE}
-# see how I changed out.width and fig.width from defaults
-# to make the figure bigger
-ggplot(penguins, aes(x = bill_length_mm, y = species, color = species)) +
-  geom_boxplot() +
-  theme_minimal()
+# Limitations
+
+- Potential data manipulation
+    - Mitchell J (Kaggle username) is the source for our data… what if Mitchell J messed with the dataset before posting it on Kaggle
+    - Mitchell J scraped the data from Youtube… what if Youtube altered its own data before making it publicly available?
+- Youtube guidelines for collecting data
+    - What counts as a view?
+- The data is only representative of viewers in the US - people use Youtube in many other countries as well
+
+
+---
+
+class: left, top
+
+# Future Research
+
+- Examine up-to-date Youtube data
+- Examine misinformation related to democracy / government censorship
+- Examine data from other platforms (TikTok, Instagram, Facebook, etc.)
+- Examine Youtube advertisement data / Youtube views by geography
+- A thorough analysis of many years of Youtube data could dive into how changing Youtube monetization rules have affected the ways that channels create content
+
+---
+
+class: left, top
+
+# Questions?
+
+```{r question-slide, out.width='65%', fig.align='center', fig.cap = "Image Credit: url(https://www.nbcnews.com/pop-culture/viral/charlie-bit-my-finger-youtube-video-sells-nft-760-999-n1268322)", echo = FALSE}
+knitr::include_graphics("img/210524-charlie-bit-my-finger-se-1035a.webp")
 ```
-]
 
 ---
 
-# Images
-
-```{r castle, echo = FALSE, out.width = "60%", fig.align = "center", fig.cap = "Image credit: Photo by Jörg Angeli on Unsplash."}
-include_graphics("https://images.unsplash.com/photo-1535448033526-c0e85c9e6968?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80")
-```
-
-Or you can also include a full page image. See next slide.
-
----
-
-background-image: url(https://images.unsplash.com/photo-1535448033526-c0e85c9e6968?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80)
-
----
-
-Limitations:
-
-1. The source code of a LaTeX math expression must be in one line, unless it is inside a pair of double dollar signs, in which case the starting `$$` must appear in the very beginning of a line, followed immediately by a non-space character, and the ending `$$` must be at the end of a line, led by a non-space character;
-
-1. There should not be spaces after the opening `$` or before the closing `$`.
-
-1. Math does not work on the title slide (see [#61](https://github.com/yihui/xaringan/issues/61) for a workaround).
-
----
