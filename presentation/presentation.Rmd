@@ -125,7 +125,7 @@ We aim to examine what makes a Youtube video popular using a dataset from Kaggle
 knitr::include_graphics("img/wired-youtube.jpg.webp")
 ```
 
-The year this data is taken from was not provided but we are told it "includes several months (and counting)."
+This dataset takes Youtube data from 2017 to 2018.
 
 ---
 
