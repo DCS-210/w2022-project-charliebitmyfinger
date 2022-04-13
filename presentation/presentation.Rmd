@@ -130,7 +130,7 @@ knitr::include_graphics("img/wired-youtube.jpg.webp")
 # How Do Likes Impact Views?
 
 .pull-left[
-```{r likes-views, echo = FALSE, message = FALSE, out.width = "100%"}
+```{r likes-views, echo = FALSE, message = FALSE, out.width = "100%", fig.alt= "Scatter plot with linear model of relationship looking at Views vs. Likes. This graph demonstrates how increased likes are correlated to higher viewer count."}
 ggplot(data = yt, mapping = aes(x = likes, y = views, color = category)) +
   geom_point(size = 0.5, alpha = 0.5) + 
   theme(legend.title = element_text(size=18),
@@ -145,7 +145,7 @@ ggplot(data = yt, mapping = aes(x = likes, y = views, color = category)) +
 ]
 
 .pull-right[
-```{r likes-views-faceted, echo=FALSE, message=FALSE, out.width= "100%"}
+```{r likes-views-faceted, echo=FALSE, message=FALSE, out.width= "100%", fig.alt= "Faceted scatter plots of Likes vs. Views to break down original graph by category to isolate each genre of video posted. These graphs demonstrate relationship between Likes vs. Views by category."}
 ggplot(data = yt, mapping = aes(x = likes, y = views, color = category), alpha = 0.1) +
   geom_point(alpha = 0.5) + 
   theme(legend.title = element_text(size=18),
@@ -165,7 +165,7 @@ ggplot(data = yt, mapping = aes(x = likes, y = views, color = category), alpha =
 # How Do Dislikes Impact Views?
 
 .pull-left[
-```{r dislikes-views, echo=FALSE, message=FALSE, out.width= "100%"}
+```{r dislikes-views, echo=FALSE, message=FALSE, out.width= "100%", fig.alt= "Scatter plot with linear model of relationship looking at Views vs. Dislikes. This graph demonstrates how increased dislikes are correlated to higher viewer count."}
 #views v dislikes all w line of fit
 ggplot(data = yt, mapping = aes(x = dislikes, y = views, color = category)) +
   geom_point(size = 0.5, alpha = 0.5) +
@@ -181,7 +181,7 @@ ggplot(data = yt, mapping = aes(x = dislikes, y = views, color = category)) +
 ]
 
 .pull-right[
-```{r dislikes-views-faceted, echo=FALSE, message=FALSE, out.width= "100%"}
+```{r dislikes-views-faceted, echo=FALSE, message=FALSE, out.width= "100%", fig.alt= "Faceted scatter plots of Dislikes vs. Views to break down original graph by category to isolate each genre of video posted. These graphs demonstrate relationship between Dislikes vs. Views by category."}
 #views v dislikes faceted w lines of fit
 ggplot(data = yt, mapping = aes(x = dislikes, y = views, color = category), alpha = 0.1) +
   geom_point(alpha = 0.5) + 
@@ -201,7 +201,7 @@ ggplot(data = yt, mapping = aes(x = dislikes, y = views, color = category), alph
 
 # How Does Time Impact Views? (Date Published)
 .pull-left[
-```{r views vs date published, echo=FALSE, message=FALSE, warning=FALSE, out.width= "100%"}
+```{r views vs date published, echo=FALSE, message=FALSE, warning=FALSE, out.width= "100%", fig.alt= "Scatter plot displaying the relationship between youtube views and date posted. Videos posted from November through till June tend to receive higher viewership."}
 yt$publish_date <- as.Date(yt$publish_time)
 
 yt %>%
@@ -224,7 +224,7 @@ yt %>%
 ]
 
 .pull-right[
-```{r views vs date published facet, echo=FALSE, message=FALSE, warning=FALSE, out.width= "100%"}
+```{r views vs date published facet, echo=FALSE, message=FALSE, warning=FALSE, out.width= "100%", fig.alt= "Faceted scatter plot of previous graph broken down by category. Graph aims to breakdown and provide clearer insight on specific genres of videos and the relationship between views and date posted."}
 yt %>%
   ggplot(data = yt, mapping = aes(x = publish_date, y = views, color = category)) +
   geom_point(alpha = 0.5) +
@@ -251,7 +251,7 @@ yt %>%
 #How Does Time Impact Views? (Months and Minutes)
 
 .pull-left[
-```{r views vs month,echo=FALSE, message=FALSE, warning=FALSE, out.width= "100%"}
+```{r views vs month,echo=FALSE, message=FALSE, warning=FALSE, out.width= "100%", fig.alt= "Polar graph displaying the relationship bewteen views and upload month. This graph aims to visually display views in relationship to month on a circular scale."}
 ggplot(data = yt, mapping = aes(x = month(publish_time, label = TRUE), y = views)) +
   geom_point(size = 0.5) + 
   coord_polar() + 
@@ -260,7 +260,7 @@ ggplot(data = yt, mapping = aes(x = month(publish_time, label = TRUE), y = views
 ```
 ]
 .pull-right[
-```{r views vs hour, echo=FALSE, message=FALSE, out.width= "100%"}
+```{r views vs hour, echo=FALSE, message=FALSE, out.width= "100%", fig.alt= "Polar graph displaying the relationship bewteen views and upload hour. This graph aims to visually display views in relationship to hour on a circular scale."}
 ggplot(data = yt, mapping = aes(x = hour(publish_time), y = views)) + 
   geom_point(size = 0.5) + 
   coord_polar() + 
@@ -273,7 +273,7 @@ ggplot(data = yt, mapping = aes(x = hour(publish_time), y = views)) +
 
 # How Many Videos are Produced Within Each Category?
 
-```{r category-videos, echo=FALSE, message=FALSE, fig.align='center', out.width= "70%"}
+```{r category-videos, echo=FALSE, message=FALSE, fig.align='center', out.width= "70%", fig.alt= "Barplot displaying the number of videos in each video category. Aims to demonstrate which category has the most number of videos."}
 videos_per_category = yt %>%
     group_by(category) %>%
     count %>%
@@ -289,7 +289,7 @@ ggplot(videos_per_category, aes(x=reorder(category, n), y=n)) +
 
 # What is the Relationship Between Views and Category?
 
-```{r category-v-views, echo=FALSE, message=FALSE, fig.align='center', out.width= "70%"}
+```{r category-v-views, echo=FALSE, message=FALSE, fig.align='center', out.width= "70%", fig.alt= "Barplot displaying the relationship bewteen YouTube Category and Views. Barplot aims to show which categories have the highest viewcount."}
 yt %>%
   ggplot(data = yt, mapping = aes(x = category, y = views)) +
   geom_boxplot(alpha = 0.15, aes(color = factor(yt$category))) +
