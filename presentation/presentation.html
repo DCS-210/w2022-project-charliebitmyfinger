@@ -4,7 +4,7 @@
     <title>Exploring Factors of Popularity in U.S. Youtube Videos</title>
     <meta charset="utf-8" />
     <meta name="author" content="CharlieBitMyFinger   Jesse Solinger, Oliver Wan, and Riley Burns" />
-    <meta name="date" content="2022-04-13" />
+    <meta name="date" content="2022-04-14" />
     <script src="libs/header-attrs-2.13/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
@@ -16,7 +16,7 @@ class: center, middle, inverse, title-slide
 ## What makes a Youtube video popular?
 ### CharlieBitMyFinger <br> Jesse Solinger, Oliver Wan, and Riley Burns
 ### Bates College
-### 2022-04-13
+### 2022-04-14
 
 ---
 
@@ -36,9 +36,9 @@ class: left, top
 
 What makes a Youtube video popular? And what factors contribute to videos' popularity? 
 
-Youtube maintains a list of top trending videos posted on their platform each year. According to Variety magazine, Youtube does not base their top trending video list solely on views. They measure user interactions (number of views, shares, comments and likes), which all impact video popularity. 
+Youtube maintains a list of top trending videos posted on their platform each year. According to *Variety* magazine, Youtube does not base their top trending video list solely on views. They measure user interactions (number of views, shares, comments and likes), which all impact video popularity. 
 
-Keeping this in mind, we will explore what specific factors contribute to popularity and maybe how we can predict a video's eventual popularity.
+Keeping this in mind, we will explore what specific factors contribute to popularity and how we can predict a video's eventual popularity.
 
 ---
 
@@ -46,7 +46,7 @@ class: left, top
 
 # Trending Youtube Video Statistics
 
-We aim to examine what makes a Youtube video popular using a dataset from Kaggle.com, containing a daily record of the top trending Youtube videos and their statistics. The dataset includes the video title, channel title, publish time, tags, views, likes and dislikes, description, and comment count. The data also contains data from 10 different countries, but for the purpose of this project, we will stick to data from the U.S. It's also important to note that this dataset uses Youtube data from 2017 to 2018.
+We aim to examine what makes a Youtube video popular using a dataset from Kaggle.com that contains a daily record of the top trending Youtube videos and their statistics. The dataset includes the video title, channel title, publish time, tags, views, likes and dislikes, description, and comment count. The data also contains data from 10 different countries, but for the purpose of this project, we will stick to data from the U.S. It's also important to note that this dataset uses Youtube data from 2017 to 2018.
 
 &lt;div class="figure" style="text-align: center"&gt;
 &lt;img src="img/wired-youtube.jpg.webp" alt="Image Credit: url(https://www.wired.co.uk/article/youtube-migration-videos)" width="35%" /&gt;
@@ -115,6 +115,16 @@ We aim to examine what makes a Youtube video popular using a dataset from Kaggle
 class: left, top
 
 # Conclusions
+
+
+- The slope of dislikes vs views varies significantly from category to category
+    - The slope of views vs likes is not as variable from category to category
+- Date published does not seem to correlate with video popularity at all
+    - However, some videos in April and May published tend to garner a ton of views
+- A significant portion of Youtube videos are categorized as music or entertainment
+    - Music and entertainment videos are also some of the most popular videos on Youtube
+- Videos in channels that have a ton of videos tend to have more views
+- Videos in categories that have a ton of videos tend to have more views
 
 ---
 
