@@ -18,6 +18,7 @@ library(tidyverse)
 library(broom)
 library(lubridate)
 library(scales)
+library(tidymodels) # modelling
 ```
 
 ## 1. Introduction
@@ -184,6 +185,31 @@ ggplot(data = yt, mapping = aes(x = likes, y = views, color = category), alpha =
 
 
 
+
+```{r views-v-likes-revised, echo = FALSE, message = FALSE}
+#views v likes music
+music = filter(yt, category == "Music")
+ggplot(data = music, mapping = aes(x = likes, y = views), alpha = 0.1) +
+  geom_point(alpha = 0.5) + 
+  labs( "Views vs. Likes For Music", x="Likes", y="Views") + 
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
+  geom_smooth(method = "loess", se = FALSE, color = "red") +
+  scale_x_continuous(labels = label_number(suffix = " M", scale = 1e-6))
+
+
+#views v likes entertainment
+Entertainment = filter(yt, category == "Entertainment")
+ggplot(data = Entertainment, mapping = aes(x = likes, y = views), alpha = 0.1) +
+  geom_point(alpha = 0.5) + 
+  labs( "Views vs. Likes For Entertainment", x="Likes", y="Views") + 
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
+  geom_smooth(method = "loess", se = FALSE, color = "red") +
+  scale_x_continuous(labels = label_number(suffix = " M", scale = 1e-6))
+```
+
+
+
+
 ## Views vs. Dislikes
 
 ```{r views-v-dislikes, echo = FALSE, message = FALSE,}
@@ -322,7 +348,7 @@ ggplot(data = yt, mapping = aes(x = month(publish_time, label = TRUE), y = views
 ggplot(data = yt, mapping = aes(x = hour(publish_time), y = views)) + 
   geom_point(size = 0.5) + 
   coord_polar() + 
-  labs(title = "Views and Upload Time(Hour)", x="Hour", y="Views") + 
+  labs(title = "Views and Upload Time(Hour)", x="Hour (EST)", y="Views") + 
   scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
 ```
 
@@ -492,3 +518,17 @@ ggplot(mapping = aes(x = videos_per_channel$n, y = mean_views_vid_for_each_chann
     x = "The Number of Videos Per Channel",
     y = "The Mean Number of Views Per Video for Each Channel")
 ```
+
+
+
+
+```{r big-linear-model, echo = FALSE, message = FALSE, warning = FALSE}
+
+big_lin_model <- linear_reg() %>%
+         set_engine("lm") %>% 
+         fit(views ~ category + publish_time + likes + comment_count + dislikes, data = yt)
+
+big_lin_model
+
+```
+
