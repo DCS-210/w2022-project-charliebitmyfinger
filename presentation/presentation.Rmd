@@ -30,6 +30,7 @@ library(ggspatial)
 library(gifski)
 library(lubridate)
 library(gganimate)
+library(pagedown)
 ```
 
 ```{r setup, include=FALSE}
@@ -103,15 +104,15 @@ style_xaringan(
 ```
 
 
-class: left, middle
+class: left, top
 
 ## Research Question
 
 What makes a Youtube video popular? And what factors contribute to videos' popularity? 
 
-Youtube maintains a list of top trending videos posted on their platform each year. According to Variety magazine, Youtube does not base their top trending video list solely on views. They measure user interactions (number of views, shares, comments and likes), which all impact video popularity. 
+Youtube maintains a list of top trending videos posted on their platform each year. According to *Variety* magazine, Youtube does not base their top trending video list solely on views. They measure user interactions (number of views, shares, comments and likes), which all impact video popularity. 
 
-Keeping this in mind, we will explore what specific factors contribute to popularity and maybe how we can predict a video's eventual popularity.
+Keeping this in mind, we will explore what specific factors contribute to popularity and how we can predict a video's eventual popularity.
 
 ---
 
@@ -119,20 +120,18 @@ class: left, top
 
 # Trending Youtube Video Statistics
 
-We aim to examine what makes a Youtube video popular using a dataset from Kaggle.com, containing a daily record of the top trending Youtube videos and their statistics. The dataset includes the video title, channel title, publish time, tags, views, likes and dislikes, description, and comment count. The data also contains data from 10 different countries, but for the purpose of this project, we will stick to data from the U.S.
+We aim to examine what makes a Youtube video popular using a dataset from Kaggle.com that contains a daily record of the top trending Youtube videos and their statistics. The dataset includes the video title, channel title, publish time, tags, views, likes and dislikes, description, and comment count. The data also contains data from 10 different countries, but for the purpose of this project, we will stick to data from the U.S. It's also important to note that this dataset uses Youtube data from 2017 to 2018.
 
-```{r, out.width='35%', fig.align='center', fig.cap = "url(https://www.wired.co.uk/article/youtube-migration-videos)", echo = FALSE}
+```{r, out.width='35%', fig.align='center', fig.cap = "Image Credit: url(https://www.wired.co.uk/article/youtube-migration-videos)", echo = FALSE}
 knitr::include_graphics("img/wired-youtube.jpg.webp")
 ```
-
-The year this data is taken from was not provided but we are told it "includes several months (and counting)."
 
 ---
 
 # How Do Likes Impact Views?
 
 .pull-left[
-```{r likes-views, echo = FALSE, message = FALSE, out.width = "100%"}
+```{r likes-views, echo = FALSE, message = FALSE, out.width = "100%", fig.alt= "Scatter plot with linear model of relationship looking at Views vs. Likes. This graph demonstrates how increased likes are correlated to higher viewer count."}
 ggplot(data = yt, mapping = aes(x = likes, y = views, color = category)) +
   geom_point(size = 0.5, alpha = 0.5) + 
   theme(legend.title = element_text(size=18),
@@ -147,7 +146,7 @@ ggplot(data = yt, mapping = aes(x = likes, y = views, color = category)) +
 ]
 
 .pull-right[
-```{r likes-views-faceted, echo=FALSE, message=FALSE, out.width= "100%"}
+```{r likes-views-faceted, echo=FALSE, message=FALSE, out.width= "100%", fig.alt= "Faceted scatter plots of Likes vs. Views to break down original graph by category to isolate each genre of video posted. These graphs demonstrate relationship between Likes vs. Views by category."}
 ggplot(data = yt, mapping = aes(x = likes, y = views, color = category), alpha = 0.1) +
   geom_point(alpha = 0.5) + 
   theme(legend.title = element_text(size=18),
@@ -167,7 +166,7 @@ ggplot(data = yt, mapping = aes(x = likes, y = views, color = category), alpha =
 # How Do Dislikes Impact Views?
 
 .pull-left[
-```{r dislikes-views, echo=FALSE, message=FALSE, out.width= "100%"}
+```{r dislikes-views, echo=FALSE, message=FALSE, out.width= "100%", fig.alt= "Scatter plot with linear model of relationship looking at Views vs. Dislikes. This graph demonstrates how increased dislikes are correlated to higher viewer count."}
 #views v dislikes all w line of fit
 ggplot(data = yt, mapping = aes(x = dislikes, y = views, color = category)) +
   geom_point(size = 0.5, alpha = 0.5) +
@@ -183,7 +182,7 @@ ggplot(data = yt, mapping = aes(x = dislikes, y = views, color = category)) +
 ]
 
 .pull-right[
-```{r dislikes-views-faceted, echo=FALSE, message=FALSE, out.width= "100%"}
+```{r dislikes-views-faceted, echo=FALSE, message=FALSE, out.width= "100%", fig.alt= "Faceted scatter plots of Dislikes vs. Views to break down original graph by category to isolate each genre of video posted. These graphs demonstrate relationship between Dislikes vs. Views by category."}
 #views v dislikes faceted w lines of fit
 ggplot(data = yt, mapping = aes(x = dislikes, y = views, color = category), alpha = 0.1) +
   geom_point(alpha = 0.5) + 
@@ -201,144 +200,161 @@ ggplot(data = yt, mapping = aes(x = dislikes, y = views, color = category), alph
 
 ---
 
-class: inverse, middle, center
+# How Does Time Impact Views? (Date Published)
+.pull-left[
+```{r views vs date published, echo=FALSE, message=FALSE, warning=FALSE, out.width= "100%", fig.alt= "Scatter plot displaying the relationship between youtube views and date posted. Videos posted from November through till June tend to receive higher viewership."}
+yt$publish_date <- as.Date(yt$publish_time)
 
-# Using xaringan
+yt %>%
+  ggplot(data = yt, mapping = aes(x = publish_date, y = views, color = category)) +
+  geom_point(size = 0.5, alpha = 0.5) +
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
+  labs(
+    title = "The Relationship Between YouTube Views and Date",
+    subtitle = "by Category",
+    x = "Date Published",
+    y = "Views",
+    color = "Category") +
+  theme(legend.title = element_text(size = 10), 
+        legend.text = element_text(size = 8),
+        legend.key.size = unit(0.4, "cm"), 
+        axis.text.x=element_text(angle=60, hjust=1)) +
+  scale_x_date(limit=c(as.Date("2016-12-15 18:59:30 UTC"), as.Date("2018-6-30 18:59:30 UTC")), date_breaks = "1 month", date_labels = "%y-%m") +
+  scale_colour_viridis_d()
+```
+]
+
+.pull-right[
+```{r views vs date published facet, echo=FALSE, message=FALSE, warning=FALSE, out.width= "100%", fig.alt= "Faceted scatter plot of previous graph broken down by category. Graph aims to breakdown and provide clearer insight on specific genres of videos and the relationship between views and date posted."}
+yt %>%
+  ggplot(data = yt, mapping = aes(x = publish_date, y = views, color = category)) +
+  geom_point(alpha = 0.5) +
+  labs(
+    title = "The Relationship Between YouTube Views and Date",
+    subtitle = "by Category",
+    x = "Date Published",
+    y = "Views",
+    color = "Category") +
+  theme(legend.title = element_text(size = 10), 
+        legend.text = element_text(size = 8),
+        legend.key.size = unit(0.4, "cm"), 
+        axis.text.x=element_text(angle=60, hjust=1)) +
+  scale_x_date(limit=c(as.Date("2017-10-15 18:59:30 UTC"), as.Date("2018-6-30 18:59:30 UTC")), date_breaks = "1 month", date_labels = "%y-%m") +
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
+  facet_wrap(~category) +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  scale_colour_viridis_d()
+```
+]
 
 ---
 
-# xaringan
-
-- The presentation is created using the `xaringan` package
-
-- Use `---` to separate slides and `--` for incremental builds
-
---
-
-- Like this
-
----
-
-# Layouts
-
-You can use plain text
-
-- or bullet points
+#How Does Time Impact Views? (Months and Minutes)
 
 .pull-left[
-or text in two columns $^*$
+```{r views vs month,echo=FALSE, message=FALSE, warning=FALSE, out.width= "100%", fig.alt= "Polar graph displaying the relationship bewteen views and upload month. This graph aims to visually display views in relationship to month on a circular scale."}
+ggplot(data = yt, mapping = aes(x = month(publish_time, label = TRUE), y = views)) +
+  geom_point(size = 0.5) + 
+  coord_polar() + 
+  labs(title = "Views and Upload Time (Month)", x="Month", y="Views") + 
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
+```
 ]
 .pull-right[
-- like
-- this
-]
-
-.footnote[
-[*] And add footnotes
-]
-
----
-
-# Code
-
-```{r boring-regression, echo=FALSE, warning=FALSE, message=FALSE}
-# a boring regression
-model <- lm(dist ~ speed, data = cars)
-tidy(model)
-glance(model)
-```
-
----
-
-# Plots
-
-```{r recode-species, echo = FALSE}
-# In this chunk I'm doing a bunch of analysis that I don't want to present 
-# in my slides. But I need the resulting data frame for a plot I want to present.
-iris_modified <- iris %>%
-  mutate(Species = fct_other(Species, keep = "setosa"))
-```
-
-```{r plot-iris, echo = FALSE}
-# Code hidden with echo = FALSE
-# Uses modified iris dataset from previous chunk
-# Play around with height and width until you're happy with the look
-ggplot(data = iris_modified, mapping = aes(x = Sepal.Width, y = Sepal.Length, color = Species)) +
-  geom_point() + 
-  theme_minimal() # theme options: https://ggplot2.tidyverse.org/reference/ggtheme.html
-```
-
----
-
-## Plot and text
-
-.pull-left[
-- Some text
-- goes here
-]
-.pull-right[
-```{r warning=FALSE, out.width="100%", fig.width=4, echo=FALSE}
-# see how I changed out.width and fig.width from defaults
-# to make the figure bigger
-ggplot(penguins, aes(x = bill_length_mm, y = species, color = species)) +
-  geom_boxplot() +
-  theme_minimal()
+```{r views vs hour, echo=FALSE, message=FALSE, out.width= "100%", fig.alt= "Polar graph displaying the relationship bewteen views and upload hour. This graph aims to visually display views in relationship to hour on a circular scale."}
+ggplot(data = yt, mapping = aes(x = hour(publish_time), y = views)) + 
+  geom_point(size = 0.5) + 
+  coord_polar() + 
+  labs(title = "Views and Upload Time(Hour)", x="Hour", y="Views") + 
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
 ```
 ]
 
 ---
 
-# Tables
+# How Many Videos are Produced Within Each Category?
 
-If you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,
+```{r category-videos, echo=FALSE, message=FALSE, fig.align='center', out.width= "70%", fig.alt= "Barplot displaying the number of videos in each video category. Aims to demonstrate which category has the most number of videos."}
+videos_per_category = yt %>%
+    group_by(category) %>%
+    count %>%
+    arrange(desc(n))
 
-```{r iris-table, echo = FALSE}
-kable(head(iris), format = "html")
+ggplot(videos_per_category, aes(x=reorder(category, n), y=n)) + 
+  geom_bar(stat = "identity") +
+  labs(title = "Number of Videos In Each Category", x="Category", y="# of Videos") +
+   theme(axis.text.x=element_text(angle=60, hjust=1), legend.position= 'none')
 ```
 
 ---
 
-# Images
+# What is the Relationship Between Views and Category?
 
-```{r castle, echo = FALSE, out.width = "60%", fig.align = "center", fig.cap = "Image credit: Photo by Jörg Angeli on Unsplash."}
-include_graphics("https://images.unsplash.com/photo-1535448033526-c0e85c9e6968?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80")
+```{r category-v-views, echo=FALSE, message=FALSE, fig.align='center', out.width= "70%", fig.alt= "Barplot displaying the relationship bewteen YouTube Category and Views. Barplot aims to show which categories have the highest viewcount."}
+yt %>%
+  ggplot(data = yt, mapping = aes(x = category, y = views)) +
+  geom_boxplot(alpha = 0.15, aes(color = factor(yt$category))) +
+  labs(
+    title = "Relationship Between YouTube Category and Views",
+    x = "Category",
+    y = "Views",
+    color = "Category") +
+  theme(axis.text.x=element_text(angle=60, hjust=1), legend.position= 'none' ) +
+  scale_colour_viridis_d() + 
+  ylim(0, 235000000) + scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6))
 ```
+---
 
-Or you can also include a full page image. See next slide.
+class: left, top
+
+# Conclusions
+
+
+- The slope of dislikes vs views varies significantly from category to category
+    - The slope of views vs likes is not as variable from category to category
+- Date published does not seem to correlate with video popularity at all
+    - However, some videos in April and May published tend to garner a ton of views
+- A significant portion of Youtube videos are categorized as music or entertainment
+    - Music and entertainment videos are also some of the most popular videos on Youtube
+- Videos in channels that have a ton of videos tend to have more views
+- Videos in categories that have a ton of videos tend to have more views
 
 ---
 
-background-image: url(https://images.unsplash.com/photo-1535448033526-c0e85c9e6968?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80)
+class: left, top
+
+# Limitations
+
+- Potential data manipulation
+    - Mitchell J (Kaggle username) is the source for our data… what if Mitchell J messed with the dataset before posting it on Kaggle
+    - Mitchell J scraped the data from Youtube… what if Youtube altered its own data before making it publicly available?
+- Youtube guidelines for collecting data
+    - What counts as a view?
+- The data is only representative of viewers in the US - people use Youtube in many other countries as well
+
 
 ---
 
-# Math Expressions
+class: left, top
 
-You can write LaTeX math expressions inside a pair of dollar signs, e.g. &#36;\alpha+\beta$ renders $\alpha+\beta$. You can use the display style with double dollar signs:
+# Future Research
 
-```
-$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
-```
-
-$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
-
-Limitations:
-
-1. The source code of a LaTeX math expression must be in one line, unless it is inside a pair of double dollar signs, in which case the starting `$$` must appear in the very beginning of a line, followed immediately by a non-space character, and the ending `$$` must be at the end of a line, led by a non-space character;
-
-1. There should not be spaces after the opening `$` or before the closing `$`.
-
-1. Math does not work on the title slide (see [#61](https://github.com/yihui/xaringan/issues/61) for a workaround).
+- Examine up-to-date Youtube data
+- Examine misinformation related to democracy / government censorship
+- Examine data from other platforms (TikTok, Instagram, Facebook, etc.)
+- Examine Youtube advertisement data / Youtube views by geography
+- A thorough analysis of many years of Youtube data could dive into how changing Youtube monetization rules have affected the ways that channels create content
 
 ---
 
-# Feeling adventurous?
+class: left, top
 
-- Want to find out more about `xaringan`? See https://slides.yihui.name/xaringan/#1.
+# Questions?
 
-- You are welcomed to use the default styling of the slides. In fact, that's what I expect majority of you will do. You will differentiate yourself with the content of your presentation.
+```{r question-slide, out.width='65%', fig.align='center', fig.cap = "Image Credit: url(https://www.nbcnews.com/pop-culture/viral/charlie-bit-my-finger-youtube-video-sells-nft-760-999-n1268322)", echo = FALSE}
+knitr::include_graphics("img/210524-charlie-bit-my-finger-se-1035a.webp")
+```
 
-- But some of you might want to play around with slide styling. The 
-`xaringanthemer` provides some solutions for this that: https://pkg.garrickadenbuie.com/xaringanthemer.
+---
 
-- And if you want more bells and whistles, there is also `xaringanExtra`: https://pkg.garrickadenbuie.com/xaringanExtra.
+
