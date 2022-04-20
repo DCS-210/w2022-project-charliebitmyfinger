@@ -4,7 +4,7 @@
     <title>Exploring Factors of Popularity in U.S. Youtube Videos</title>
     <meta charset="utf-8" />
     <meta name="author" content="CharlieBitMyFinger   Jesse Solinger, Oliver Wan, and Riley Burns" />
-    <meta name="date" content="2022-04-14" />
+    <meta name="date" content="2022-04-20" />
     <script src="libs/header-attrs-2.13/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
@@ -16,7 +16,7 @@ class: center, middle, inverse, title-slide
 ## What makes a Youtube video popular?
 ### CharlieBitMyFinger <br> Jesse Solinger, Oliver Wan, and Riley Burns
 ### Bates College
-### 2022-04-14
+### 2022-04-20
 
 ---
 
@@ -49,7 +49,7 @@ class: left, top
 We aim to examine what makes a Youtube video popular using a dataset from Kaggle.com that contains a daily record of the top trending Youtube videos and their statistics. The dataset includes the video title, channel title, publish time, tags, views, likes and dislikes, description, and comment count. The data also contains data from 10 different countries, but for the purpose of this project, we will stick to data from the U.S. It's also important to note that this dataset uses Youtube data from 2017 to 2018.
 
 &lt;div class="figure" style="text-align: center"&gt;
-&lt;img src="img/wired-youtube.jpg.webp" alt="Image Credit: url(https://www.wired.co.uk/article/youtube-migration-videos)" width="35%" /&gt;
+&lt;img src="img/wired-youtube.jpg.webp" alt="world map of youtube logo on top to demonstrate the topic of our presentation." width="35%" /&gt;
 &lt;p class="caption"&gt;Image Credit: url(https://www.wired.co.uk/article/youtube-migration-videos)&lt;/p&gt;
 &lt;/div&gt;
 
@@ -112,7 +112,8 @@ We aim to examine what makes a Youtube video popular using a dataset from Kaggle
 &lt;img src="presentation_files/figure-html/category-v-views-1.png" title="Barplot displaying the relationship bewteen YouTube Category and Views. Barplot aims to show which categories have the highest viewcount." alt="Barplot displaying the relationship bewteen YouTube Category and Views. Barplot aims to show which categories have the highest viewcount." width="70%" style="display: block; margin: auto;" /&gt;
 ---
 
-class: left, top
+
+
 
 # Conclusions
 
@@ -165,6 +166,43 @@ class: left, top
 
 ---
 
+#Extra Credit Regression
+
+```
+## parsnip model object
+## 
+## Fit time:  570ms 
+## 
+## Call:
+## stats::lm(formula = views ~ category + publish_time + likes + 
+##     comment_count + dislikes, data = data)
+## 
+## Coefficients:
+##                   (Intercept)                 categoryComedy  
+##                    -1.138e+07                     -1.456e+06  
+##             categoryEducation          categoryEntertainment  
+##                    -1.233e+06                     -6.326e+05  
+##      categoryFilm &amp; Animation                 categoryGaming  
+##                    -3.883e+04                     -7.383e+05  
+##         categoryHowto &amp; Style                  categoryMusic  
+##                    -1.146e+06                     -1.587e+06  
+##       categoryNews &amp; Politics  categoryNonprofits &amp; Activism  
+##                    -7.034e+05                     -4.014e+06  
+##                 categoryOther         categoryPeople &amp; Blogs  
+##                    -8.328e+05                     -1.211e+06  
+##        categoryPets &amp; Animals   categoryScience &amp; Technology  
+##                    -8.405e+05                     -5.948e+05  
+##                categorySports        categoryTravel &amp; Events  
+##                    -4.395e+05                     -5.744e+05  
+##                  publish_time                          likes  
+##                     8.254e-03                      3.608e+01  
+##                 comment_count                       dislikes  
+##                    -9.953e+01                      8.357e+01
+```
+---
+#Extra Credit Revision
+&lt;img src="presentation_files/figure-html/views-v-likes-revised-1.png" title="Scatter plot with linear model of relationship looking at Views vs. Likes. This graph demonstrates how increased likes are correlated to higher viewer count." alt="Scatter plot with linear model of relationship looking at Views vs. Likes. This graph demonstrates how increased likes are correlated to higher viewer count." width="80%" /&gt;&lt;img src="presentation_files/figure-html/views-v-likes-revised-2.png" title="Scatter plot with linear model of relationship looking at Views vs. Likes. This graph demonstrates how increased likes are correlated to higher viewer count." alt="Scatter plot with linear model of relationship looking at Views vs. Likes. This graph demonstrates how increased likes are correlated to higher viewer count." width="80%" /&gt;
+```
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

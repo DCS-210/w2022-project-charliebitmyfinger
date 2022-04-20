@@ -97,7 +97,7 @@ for(i in 1:nrow(yt)){
   }}
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, fig.alt= "image of the youtube logo which is the basis of our presentation given we are looking at youtube view counts."}
 style_xaringan(
   title_slide_background_image = "img/3ebb12890a8a5405b80a9f63e268b1aa.jpg"
 )
@@ -122,7 +122,7 @@ class: left, top
 
 We aim to examine what makes a Youtube video popular using a dataset from Kaggle.com that contains a daily record of the top trending Youtube videos and their statistics. The dataset includes the video title, channel title, publish time, tags, views, likes and dislikes, description, and comment count. The data also contains data from 10 different countries, but for the purpose of this project, we will stick to data from the U.S. It's also important to note that this dataset uses Youtube data from 2017 to 2018.
 
-```{r, out.width='35%', fig.align='center', fig.cap = "Image Credit: url(https://www.wired.co.uk/article/youtube-migration-videos)", echo = FALSE}
+```{r, out.width='35%', fig.align='center', fig.cap = "Image Credit: url(https://www.wired.co.uk/article/youtube-migration-videos)", echo = FALSE, fig.alt="world map of youtube logo on top to demonstrate the topic of our presentation."}
 knitr::include_graphics("img/wired-youtube.jpg.webp")
 ```
 
@@ -305,7 +305,8 @@ yt %>%
 ```
 ---
 
-class: left, top
+
+
 
 # Conclusions
 
@@ -357,4 +358,41 @@ knitr::include_graphics("img/210524-charlie-bit-my-finger-se-1035a.webp")
 
 ---
 
+#Extra Credit Regression
+```{r big-linear-model, echo = FALSE, message = FALSE, warning = FALSE, fig.alt="Regression of views with variables, categories, comment count, likes, dislikes. This regression is used to look at the relationships between all variables."}
 
+big_lin_model <- linear_reg() %>%
+         set_engine("lm") %>% 
+         fit(views ~ category + publish_time + likes + comment_count + dislikes, data = yt)
+
+big_lin_model
+
+```
+---
+#Extra Credit Revision
+.pull-left[
+```{r views-v-likes-revised, echo = FALSE, message = FALSE, fig.alt= "Scatter plot with linear model of relationship looking at Views vs. Likes. This graph demonstrates how increased likes are correlated to higher viewer count."}
+#views v likes music
+music = filter(yt, category == "Music")
+ggplot(data = music, mapping = aes(x = likes, y = views), alpha = 0.1) +
+  geom_point(alpha = 0.5) + 
+  labs( "Views vs. Likes For Music", x="Likes", y="Views") + 
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
+  geom_smooth(method = "loess", se = FALSE, color = "red") +
+  scale_x_continuous(labels = label_number(suffix = " M", scale = 1e-6))
+```
+]
+
+.pull-right[
+```{r views-v-likes-revised, echo = FALSE, message = FALSE, fig.alt= "Scatter plot with linear model of relationship looking at Views vs. Likes. This graph demonstrates how increased likes are correlated to higher viewer count."}
+#views v likes entertainment
+Entertainment = filter(yt, category == "Entertainment")
+ggplot(data = Entertainment, mapping = aes(x = likes, y = views), alpha = 0.1) +
+  geom_point(alpha = 0.5) + 
+  labs( "Views vs. Likes For Entertainment", x="Likes", y="Views") + 
+  scale_y_continuous(labels = label_number(suffix = " M", scale = 1e-6)) +
+  geom_smooth(method = "loess", se = FALSE, color = "red") +
+  scale_x_continuous(labels = label_number(suffix = " M", scale = 1e-6))
+```
+]
+===
